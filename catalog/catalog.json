@@ -1,0 +1,209 @@
+{
+  "cities": {
+    "new-york-ny": {
+      "sources": [
+        {
+          "name": "NYC DOB Permit Issuance",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "per_page": 1000,
+          "max_pages": 10,
+          "datasets": [
+            {"id": "ipu4-2q9a", "join_column": "bin__", "join_key": "bin", "category": "building_permits", "label": "DOB Permit Issuance (BIN)"},
+            {"id": "ic3t-wcy2", "join_column": "bbl", "join_key": "bbl", "category": "building_permits", "label": "DOB Job Applications (BBL)"}
+          ]
+        },
+        {
+          "name": "NYC DOB NOW Safety",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "per_page": 1000,
+          "max_pages": 10,
+          "datasets": [
+            {"id": "rbx6-tga4", "join_column": "bin", "join_key": "bin", "category": "building_permits", "label": "DOB NOW Safety (BIN)"},
+            {"id": "w9ak-ipjd", "join_column": "bin", "join_key": "bin", "category": "building_permits", "label": "DOB NOW Build (BIN)"}
+          ]
+        },
+        {
+          "name": "NYC DOB Violations",
+          "source_type": "violations",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "3h2n-5cm9", "join_column": "STREET", "category": "violations", "label": "DOB Violations"}
+          ]
+        },
+        {
+          "name": "NYC ECB/OATH Violations",
+          "source_type": "violations",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "nc67-uf89", "join_column": "address", "category": "violations", "label": "ECB/OATH Violations"}
+          ]
+        },
+        {
+          "name": "NYC HPD Housing Maintenance Code Violations",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "6bgk-3dad", "join_column": "address", "category": "violations", "label": "HPD Housing Violations"}
+          ]
+        },
+        {
+          "name": "NYC HPD Complaints",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "ncbg-6agr", "join_column": "address", "category": "complaints", "label": "HPD Complaints"}
+          ]
+        },
+        {
+          "name": "NYC DCP PLUTO Property Records",
+          "source_type": "property_records",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "p937-wjvj", "join_column": "LOCATION (state)", "category": "property_records", "label": "PLUTO Property Data"}
+          ]
+        },
+        {
+          "name": "NYC DOF Property Assessment",
+          "source_type": "tax_assessment",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "jzhd-m6uv", "join_column": "address", "category": "tax_assessment", "label": "DOF Property Valuation"}
+          ]
+        },
+        {
+          "name": "NYC FDNY Fire Alarm Inspections",
+          "source_type": "fire_inspections",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "yg3y-juh", "join_column": "address", "category": "fire_inspections", "label": "FDNY Fire Inspections"}
+          ]
+        },
+        {
+          "name": "NYC DOB Certificate of Occupancy",
+          "source_type": "certificate_of_occupancy",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "wvxf-dwi5", "join_column": "address", "category": "certificate_of_occupancy", "label": "DOB Certificate of Occupancy"}
+          ]
+        },
+        {
+          "name": "NYC DOB Facades/FISP",
+          "source_type": "facades",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "4dx7-axux", "join_column": "address", "category": "building_permits", "label": "DOB Facades/FISP"}
+          ]
+        },
+        {
+          "name": "NYC DOB Asbestos Control Activity",
+          "source_type": "environmental",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "8isn-pgv3", "join_column": "address", "category": "environmental", "label": "DOB Asbestos Control"}
+          ]
+        },
+        {
+          "name": "NYC HPD Registrations",
+          "source_type": "property_records",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "e5aq-a4j2", "join_column": "address", "category": "property_records", "label": "HPD Registrations"}
+          ]
+        },
+        {
+          "name": "NYC Oil Boiler Compliance (DEP)",
+          "source_type": "environmental",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "kfp4-dz4h", "join_column": "address", "category": "environmental", "label": "Oil Boiler Compliance"}
+          ]
+        },
+        {
+          "name": "NYC DOH Restaurant Inspections",
+          "source_type": "health_inspections",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "43nn-pn8j", "join_column": "address", "category": "health_inspections", "label": "DOH Restaurant Inspections"}
+          ]
+        },
+        {
+          "name": "NYC DOB Stalled Construction",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "bsin-59hv", "join_column": "address", "category": "building_permits", "label": "Stalled Construction Sites"}
+          ]
+        },
+        {
+          "name": "NYC DOB Boiler Compliance",
+          "source_type": "elevator_boiler",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "52dp-yji6", "join_column": "address", "category": "building_permits", "label": "DOB Boiler Compliance"}
+          ]
+        },
+        {
+          "name": "NYC DOB Elevator Compliance",
+          "source_type": "elevator_boiler",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "855j-jady", "join_column": "address", "category": "building_permits", "label": "DOB Elevator Compliance"}
+          ]
+        },
+        {
+          "name": "NYC HPD Litigations",
+          "source_type": "violations",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "f4rp-2kvy", "join_column": "Street", "category": "violations", "label": "HPD Litigations"}
+          ]
+        },
+        {
+          "name": "NYC 311 Service Requests",
+          "source_type": "complaints",
+          "platform": "three11",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {"id": "erm2-nwe9", "join_column": "incident_address", "category": "complaints", "label": "311 Service Requests"}
+          ]
+        }
+      ]
+    }
+  },
+  "statewide": {
+    "NY": {
+      "sources": [
+        {
+          "name": "NY DEC Environmental Remediation",
+          "source_type": "environmental",
+          "platform": "arcgis",
+          "host": "https://gisservices.dec.ny.gov/gis/dil/FeatureServer/5",
+          "datasets": [
+            {"id": "5", "join_column": "address", "category": "environmental", "label": "DEC Environmental Sites"}
+          ]
+        }
+      ]
+    }
+  }
+}
