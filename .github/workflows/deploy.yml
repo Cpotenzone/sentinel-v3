@@ -1,0 +1,67 @@
+name: Deploy Sentinel v3
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: gen-lang-client-0978140778
+  REGION: us-west1
+  SERVICE: sentinel-v3
+  REGISTRY: us-west1-docker.pkg.dev/gen-lang-client-0978140778/castle
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/398493233636/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: castle-github-deploy@gen-lang-client-0978140778.iam.gserviceaccount.com
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker us-west1-docker.pkg.dev --quiet
+
+      - name: Build and Push
+        run: |
+          docker build -t ${{ env.REGISTRY }}/sentinel-v3:${{ github.sha }} .
+          docker build -t ${{ env.REGISTRY }}/sentinel-v3:latest .
+          docker push ${{ env.REGISTRY }}/sentinel-v3:${{ github.sha }}
+          docker push ${{ env.REGISTRY }}/sentinel-v3:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE }} \
+            --image ${{ env.REGISTRY }}/sentinel-v3:${{ github.sha }} \
+            --project ${{ env.PROJECT_ID }} \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --set-secrets="GOOGLE_MAPS_API_KEY=google-maps-api-key:latest" \
+            --set-env-vars="\
+              NYC_SODA_APP_TOKEN=,\
+              GCP_PROJECT_ID=gen-lang-client-0978140778" \
+            --memory 4Gi \
+            --cpu 4 \
+            --min-instances 1 \
+            --max-instances 5 \
+            --concurrency 20 \
+            --no-cpu-throttling \
+            --timeout 900
+
+      - name: Verify Deployment
+        run: |
+          URL=$(gcloud run services describe ${{ env.SERVICE }} --region ${{ env.REGION }} --project ${{ env.PROJECT_ID }} --format="value(status.url)")
+          echo "Deployed to: $URL"
+          curl -sf "$URL/health" || echo "Health check pending (cold start)"
