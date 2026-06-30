@@ -285,36 +285,6 @@
       "label": "New York",
       "sources": [
         {
-          "name": "DEC \u2014 Environmental Permits & Remediation Sites",
-          "source_type": "environmental",
-          "platform": "ArcGIS",
-          "integration_type": "adapter",
-          "adapter_id": "arcgis",
-          "host": "gisservices.dec.ny.gov",
-          "service": "gis/dil",
-          "datasets": [
-            {
-              "layer_id": 0,
-              "label": "Remediation Sites"
-            },
-            {
-              "layer_id": 1,
-              "label": "PBS Facilities"
-            },
-            {
-              "layer_id": 2,
-              "label": "CBS Facilities"
-            },
-            {
-              "layer_id": 5,
-              "label": "Air Facility Permits"
-            }
-          ],
-          "priority_tier": 2,
-          "data_quality_score": 0.85,
-          "verified": "2026-05-10"
-        },
-        {
           "name": "DOS \u2014 Business Entity Search & Contractor Licensing",
           "source_type": "business_licenses",
           "platform": "custom",
@@ -334,19 +304,9 @@
           "host": "data.ny.gov",
           "datasets": [
             {
-              "id": "dpc7-d6p2",
-              "label": "Code Enforcement Activities",
-              "join_column": "address"
-            },
-            {
               "id": "wujg-7c2s",
               "label": "Real Property Assessment Data",
               "join_column": "sbl"
-            },
-            {
-              "id": "tnfe-tw2t",
-              "label": "Energy Benchmarking",
-              "join_column": "address_1"
             }
           ],
           "priority_tier": 2,
@@ -846,20 +806,8 @@
               "join_column": "streetname"
             },
             {
-              "id": "p937-wjvj",
-              "join_column": "location_address"
-            },
-            {
-              "id": "jzhd-m6uv",
-              "join_column": "address_type"
-            },
-            {
               "id": "4dx7-axux",
               "join_column": "businessaddress"
-            },
-            {
-              "id": "43nn-pn8j",
-              "join_column": "location"
             },
             {
               "id": "855j-jady",
@@ -876,10 +824,6 @@
             {
               "id": "e5aq-a4j2",
               "join_column": "street_name"
-            },
-            {
-              "id": "kfp4-dz4h",
-              "join_column": "designprofessional_address"
             },
             {
               "id": "bsin-59hv",
@@ -1034,7 +978,7 @@
             }
           ],
           "per_page": 1000,
-          "max_pages": 5,
+          "max_pages": 3,
           "priority_tier": 3,
           "data_quality_score": 0.9
         },
@@ -1148,12 +1092,12 @@
           "datasets": [
             {
               "id": "43nn-pn8j",
-              "join_column": "location",
+              "join_column": "building",
               "join_key": "house_number"
             },
             {
               "id": "43nn-pn8j",
-              "join_column": "location",
+              "join_column": "building",
               "join_key": "camis"
             }
           ],
@@ -1195,23 +1139,6 @@
           "max_pages": 10,
           "priority_tier": 2,
           "data_quality_score": 0.85
-        },
-        {
-          "name": "NYC 311 Service Requests",
-          "source_type": "open_data",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "datasets": [
-            {
-              "id": "erm2-nwe9",
-              "join_column": "incident_address",
-              "join_key": "address"
-            }
-          ],
-          "per_page": 1000,
-          "max_pages": 5,
-          "priority_tier": 4,
-          "data_quality_score": 0.7
         }
       ],
       "identity_resolution": {
