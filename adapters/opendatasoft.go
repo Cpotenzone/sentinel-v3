@@ -31,13 +31,12 @@ func (a *OpenDataSoftAdapter) Query(ctx context.Context, config models.DataSourc
 	// ODS API endpoint
 	endpoint := fmt.Sprintf("%s/api/explore/v2.1/catalog/datasets/%s/records", host, config.DatasetID)
 
-	// Build ODS where clause (uses different syntax than SoQL)
+	// Build ODS where clause — ODS uses: field like "value"
 	col := config.JoinColumn
 	var whereParts []string
 	for _, needle := range needles[:min(3, len(needles))] {
-		safe := strings.ReplaceAll(needle, "'", "\\'")
-		// ODS uses: search(field, "value") or field like "value"
-		whereParts = append(whereParts, fmt.Sprintf("search(%s, \"%s\")", col, safe))
+		safe := strings.ReplaceAll(needle, "\"", "\\\"")
+		whereParts = append(whereParts, fmt.Sprintf("%s like \"%s\"", col, safe))
 	}
 	where := strings.Join(whereParts, " OR ")
 

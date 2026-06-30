@@ -4409,7 +4409,7 @@
           "datasets": [
             {
               "id": "jersey-city-buildings-footprints",
-              "join_column": "address",
+              "join_column": "name",
               "category": "property_records",
               "label": "Building Footprints"
             }
@@ -4425,7 +4425,7 @@
           "datasets": [
             {
               "id": "jersey-city-parcels",
-              "join_column": "address",
+              "join_column": "name",
               "category": "property_records",
               "label": "Parcels"
             }
@@ -4441,7 +4441,7 @@
           "datasets": [
             {
               "id": "fire-battalions",
-              "join_column": "address",
+              "join_column": "name",
               "category": "fire_inspections",
               "label": "Fire Battalions"
             }
@@ -4457,7 +4457,7 @@
           "datasets": [
             {
               "id": "vacant-buildings-map",
-              "join_column": "address",
+              "join_column": "name",
               "category": "property_records",
               "label": "Vacant Buildings"
             }
