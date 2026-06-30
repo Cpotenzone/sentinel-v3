@@ -4396,6 +4396,92 @@
           ]
         }
       ]
+    },
+    "jersey-city-nj": {
+      "label": "Jersey City",
+      "state": "NJ",
+      "sources": [
+        {
+          "name": "Jersey City Building Footprints",
+          "source_type": "property_records",
+          "platform": "opendatasoft",
+          "host": "data.jerseycitynj.gov",
+          "datasets": [
+            {
+              "id": "jersey-city-buildings-footprints",
+              "join_column": "address",
+              "category": "property_records",
+              "label": "Building Footprints"
+            }
+          ],
+          "per_page": 100,
+          "max_pages": 5
+        },
+        {
+          "name": "Jersey City Parcels",
+          "source_type": "property_records",
+          "platform": "opendatasoft",
+          "host": "data.jerseycitynj.gov",
+          "datasets": [
+            {
+              "id": "jersey-city-parcels",
+              "join_column": "address",
+              "category": "property_records",
+              "label": "Parcels"
+            }
+          ],
+          "per_page": 100,
+          "max_pages": 5
+        },
+        {
+          "name": "Jersey City Fire Battalions",
+          "source_type": "fire_inspections",
+          "platform": "opendatasoft",
+          "host": "data.jerseycitynj.gov",
+          "datasets": [
+            {
+              "id": "fire-battalions",
+              "join_column": "address",
+              "category": "fire_inspections",
+              "label": "Fire Battalions"
+            }
+          ],
+          "per_page": 100,
+          "max_pages": 3
+        },
+        {
+          "name": "Jersey City Vacant Buildings",
+          "source_type": "property_records",
+          "platform": "opendatasoft",
+          "host": "data.jerseycitynj.gov",
+          "datasets": [
+            {
+              "id": "vacant-buildings-map",
+              "join_column": "address",
+              "category": "property_records",
+              "label": "Vacant Buildings"
+            }
+          ],
+          "per_page": 100,
+          "max_pages": 3
+        },
+        {
+          "name": "NJ DCA Construction Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "host": "data.nj.gov",
+          "datasets": [
+            {
+              "id": "w9se-dmra",
+              "join_column": "address",
+              "category": "building_permits",
+              "label": "NJ Construction Permits"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10
+        }
+      ]
     }
   },
   "auto_catalog_cities": {
