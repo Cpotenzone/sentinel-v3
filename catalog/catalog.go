@@ -3,6 +3,7 @@ package catalog
 import (
 	"embed"
 	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 
@@ -39,19 +40,20 @@ type DatasetEntry struct {
 	ID         string `json:"id"`
 	JoinColumn string `json:"join_column"`
 	JoinKey    string `json:"join_key"`
-	Category   string `json:"category"` // Explicit category per dataset
+	Category   string `json:"category"` // Explicit category per dataset (optional, falls back to source_type)
 	Label      string `json:"label"`
+	LayerID    *int   `json:"layer_id"` // For ArcGIS layers
 }
 
 // ToolCategories maps each tool to the categories it should query.
 // nil means query ALL categories.
 var ToolCategories = map[string][]string{
 	"sentinel_research":      nil,
-	"sentinel_permits":       {"building_permits", "certificate_of_occupancy"},
-	"sentinel_environmental": {"environmental", "fire_inspections", "health_inspections"},
+	"sentinel_permits":       {"building_permits", "certificate_of_occupancy", "facades"},
+	"sentinel_environmental": {"environmental", "fire_inspections", "health_inspections", "environmental_compliance"},
 	"sentinel_financial":     {"tax_assessment", "property_records"},
 	"sentinel_ownership":     {"property_records"},
-	"sentinel_311":           {"complaints"},
+	"sentinel_311":           {"complaints", "open_data"},
 }
 
 var loaded *Catalog
@@ -120,14 +122,28 @@ func parseSources(sources []SourceEntry) []models.DataSourceConfig {
 	var configs []models.DataSourceConfig
 	for _, src := range sources {
 		platform := strings.ToLower(src.Platform)
+		if platform == "" {
+			continue
+		}
 		for _, ds := range src.Datasets {
+			// Skip datasets with no ID (empty entries)
+			if ds.ID == "" && ds.LayerID == nil {
+				continue
+			}
 			category := ds.Category
 			if category == "" {
-				category = src.SourceType // Fallback to source-level category
+				category = src.SourceType // Fall back to source-level type
 			}
 			label := ds.Label
 			if label == "" {
-				label = src.Name + " (" + ds.ID + ")"
+				label = src.Name
+				if ds.ID != "" {
+					label += " (" + ds.ID + ")"
+				}
+			}
+			joinCol := ds.JoinColumn
+			if joinCol == "" {
+				joinCol = "address" // last resort default
 			}
 			perPage := src.PerPage
 			if perPage == 0 {
@@ -137,11 +153,15 @@ func parseSources(sources []SourceEntry) []models.DataSourceConfig {
 			if maxPages == 0 {
 				maxPages = 10
 			}
+			datasetID := ds.ID
+			if datasetID == "" && ds.LayerID != nil {
+				datasetID = fmt.Sprintf("%d", *ds.LayerID)
+			}
 			configs = append(configs, models.DataSourceConfig{
 				Platform:   platform,
 				Host:       src.Host,
-				DatasetID:  ds.ID,
-				JoinColumn: ds.JoinColumn,
+				DatasetID:  datasetID,
+				JoinColumn: joinCol,
 				JoinKey:    ds.JoinKey,
 				Category:   category,
 				Label:      label,

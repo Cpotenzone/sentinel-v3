@@ -1,165 +1,906 @@
 {
-  "cities": {
-    "new-york-ny": {
+  "_meta": {
+    "version": "2.0.0",
+    "generated": "2026-06-19",
+    "description": "SENTINEL MCP jurisdiction routing catalog \u2014 maps property research queries to correct data sources per city/state/county",
+    "total_curated_cities": 74,
+    "total_auto_catalog_cities": 25,
+    "total_sources": 182
+  },
+  "national": [
+    {
+      "name": "CISA OT/ICS Threat Advisories",
+      "source_type": "cybersecurity",
+      "integration_type": "sync",
+      "endpoint": "internal (cisa_threat_advisories table)",
+      "priority_tier": 2
+    },
+    {
+      "name": "FEMA National Flood Hazard Layer (NFHL)",
+      "source_type": "flood_zones",
+      "integration_type": "adapter",
+      "adapter_id": "arcgis",
+      "host": "hazards.fema.gov/gis/nfhl/rest/services",
+      "service": "public/NFHL",
+      "layer_id": 28,
+      "priority_tier": 1,
+      "data_quality_score": 0.95
+    },
+    {
+      "name": "EPA ECHO \u2014 Enforcement & Compliance History",
+      "source_type": "environmental_compliance",
+      "integration_type": "adapter",
+      "adapter_id": "epa_echo",
+      "host": "echo.epa.gov",
+      "endpoint": "https://echo.epa.gov/dfr-api/rest-services",
+      "priority_tier": 2,
+      "data_quality_score": 0.9
+    },
+    {
+      "name": "OSHA Establishment Inspections",
+      "source_type": "workplace_safety",
+      "integration_type": "adapter",
+      "adapter_id": "osha_api",
+      "host": "enforcedata.dol.gov",
+      "endpoint": "https://enforcedata.dol.gov/api/osha_inspection",
+      "priority_tier": 2,
+      "data_quality_score": 0.85
+    }
+  ],
+  "statewide": {
+    "CA": {
+      "label": "California",
       "sources": [
         {
-          "name": "NYC DOB Permit Issuance",
-          "source_type": "building_permits",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "per_page": 1000,
-          "max_pages": 10,
+          "name": "CAL FIRE DINS",
+          "source_type": "fire_inspections",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.ca.gov",
           "datasets": [
-            {"id": "ipu4-2q9a", "join_column": "bin__", "join_key": "bin", "category": "building_permits", "label": "DOB Permit Issuance (BIN)"},
-            {"id": "ic3t-wcy2", "join_column": "bbl", "join_key": "bbl", "category": "building_permits", "label": "DOB Job Applications (BBL)"}
-          ]
+            {
+              "id": "fd2ee9be-8555-43e2-92d7-13a454d0a89c",
+              "join_column": "Site Address (parcel)"
+            },
+            {
+              "id": "b8aeb030-140d-43d2-aa29-1a80862e3d62"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-05-10"
         },
         {
-          "name": "NYC DOB NOW Safety",
-          "source_type": "building_permits",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "per_page": 1000,
-          "max_pages": 10,
+          "name": "SWRCB \u2014 Water Quality Violations (GeoTracker)",
+          "source_type": "environmental",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.ca.gov",
           "datasets": [
-            {"id": "rbx6-tga4", "join_column": "bin", "join_key": "bin", "category": "building_permits", "label": "DOB NOW Safety (BIN)"},
-            {"id": "w9ak-ipjd", "join_column": "bin", "join_key": "bin", "category": "building_permits", "label": "DOB NOW Build (BIN)"}
-          ]
+            {
+              "id": "0e357015-7c50-461b-a0df-75a5e3e2cdf6",
+              "join_column": "SITE_ADDRESS"
+            },
+            {
+              "id": "43e44ce3-f62c-4f87-a9f5-e0b0a4dbed67",
+              "join_column": "SITE_ADDRESS"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.75,
+          "verified": "2026-05-10"
         },
         {
-          "name": "NYC DOB Violations",
-          "source_type": "violations",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "name": "SWRCB \u2014 CIWQS Water Board Orders",
+          "source_type": "environmental",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.ca.gov",
           "datasets": [
-            {"id": "3h2n-5cm9", "join_column": "STREET", "category": "violations", "label": "DOB Violations"}
-          ]
+            {
+              "id": "b0156a0e-2fb3-42f2-8c09-3067c0e63b06",
+              "join_column": "PlaceName"
+            }
+          ],
+          "priority_tier": 3,
+          "data_quality_score": 0.65,
+          "verified": "2026-05-10"
         },
         {
-          "name": "NYC ECB/OATH Violations",
-          "source_type": "violations",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "name": "HCD \u2014 Mobilehome & Special Occupancy Parks",
+          "source_type": "housing_compliance",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.ca.gov",
           "datasets": [
-            {"id": "nc67-uf89", "join_column": "address", "category": "violations", "label": "ECB/OATH Violations"}
-          ]
+            {
+              "id": "92c7eed6-2914-4e7a-8cb4-8d4a5fb18e40",
+              "join_column": "PARK_ADDRESS"
+            }
+          ],
+          "priority_tier": 3,
+          "data_quality_score": 0.7,
+          "verified": "2026-05-10"
         },
         {
-          "name": "NYC HPD Housing Maintenance Code Violations",
+          "name": "HCD \u2014 Building Standards Complaints",
           "source_type": "code_enforcement",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.ca.gov",
           "datasets": [
-            {"id": "6bgk-3dad", "join_column": "address", "category": "violations", "label": "HPD Housing Violations"}
-          ]
+            {
+              "id": "a9e4e319-65de-4f14-add7-c0a9c1e1e42c",
+              "join_column": "LOCATION"
+            }
+          ],
+          "priority_tier": 3,
+          "data_quality_score": 0.6,
+          "verified": "2026-05-10"
         },
         {
-          "name": "NYC HPD Complaints",
-          "source_type": "complaints",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "name": "OSHPD \u2014 Seismic Compliance (Hospital Buildings)",
+          "source_type": "seismic_compliance",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.ca.gov",
           "datasets": [
-            {"id": "ncbg-6agr", "join_column": "address", "category": "complaints", "label": "HPD Complaints"}
-          ]
+            {
+              "id": "fde3f4b7-e62f-43b0-84c4-82ff77c7e7c1",
+              "join_column": "FACILITY_ADDRESS"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "verified": "2026-05-10"
+        }
+      ]
+    },
+    "TX": {
+      "label": "Texas",
+      "sources": [
+        {
+          "name": "TCEQ \u2014 Air Quality Permits & Compliance",
+          "source_type": "environmental",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.texas.gov",
+          "datasets": [
+            {
+              "id": "jk9h-7t5y",
+              "join_column": "site_address"
+            },
+            {
+              "id": "qmrs-8kqt",
+              "join_column": "SITE_NAME"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.75,
+          "verified": "2026-05-12"
         },
         {
-          "name": "NYC DCP PLUTO Property Records",
-          "source_type": "property_records",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "name": "TCEQ \u2014 Water Utility CCN & Violations",
+          "source_type": "environmental",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.texas.gov",
           "datasets": [
-            {"id": "p937-wjvj", "join_column": "LOCATION (state)", "category": "property_records", "label": "PLUTO Property Data"}
-          ]
+            {
+              "id": "wk8e-4vb6",
+              "join_column": "PWS_NAME"
+            },
+            {
+              "id": "4k3n-cx4g",
+              "join_column": "VIOLATION_ADDR"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-05-12"
         },
         {
-          "name": "NYC DOF Property Assessment",
+          "name": "TDLR \u2014 Licensed Boiler & Elevator Inspections",
+          "source_type": "elevator_boiler",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.texas.gov",
+          "datasets": [
+            {
+              "id": "7tqr-uthn",
+              "join_column": "location_address"
+            },
+            {
+              "id": "eki4-dn3k",
+              "join_column": "equipment_location"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "verified": "2026-05-12"
+        },
+        {
+          "name": "TABC \u2014 Liquor License Locations",
+          "source_type": "business_licenses",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.texas.gov",
+          "datasets": [
+            {
+              "id": "fj8u-48x3",
+              "join_column": "Location Address"
+            }
+          ],
+          "priority_tier": 3,
+          "data_quality_score": 0.85,
+          "verified": "2026-05-12"
+        },
+        {
+          "name": "Comptroller \u2014 Property Tax Appraisal Roll",
           "source_type": "tax_assessment",
           "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.texas.gov",
           "datasets": [
-            {"id": "jzhd-m6uv", "join_column": "address", "category": "tax_assessment", "label": "DOF Property Valuation"}
-          ]
+            {
+              "id": "kixf-mwkb",
+              "join_column": "SITUS_ADDRESS"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "verified": "2026-05-12"
         },
         {
-          "name": "NYC FDNY Fire Alarm Inspections",
+          "name": "Texas State Fire Marshal \u2014 Arson & Investigation Reports",
           "source_type": "fire_inspections",
           "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.texas.gov",
           "datasets": [
-            {"id": "yg3y-juh", "join_column": "address", "category": "fire_inspections", "label": "FDNY Fire Inspections"}
-          ]
-        },
+            {
+              "id": "f3n4-82iq",
+              "join_column": "INCIDENT_ADDRESS"
+            }
+          ],
+          "priority_tier": 3,
+          "data_quality_score": 0.65,
+          "verified": "2026-05-12"
+        }
+      ]
+    },
+    "NY": {
+      "label": "New York",
+      "sources": [
         {
-          "name": "NYC DOB Certificate of Occupancy",
-          "source_type": "certificate_of_occupancy",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "datasets": [
-            {"id": "wvxf-dwi5", "join_column": "address", "category": "certificate_of_occupancy", "label": "DOB Certificate of Occupancy"}
-          ]
-        },
-        {
-          "name": "NYC DOB Facades/FISP",
-          "source_type": "facades",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "datasets": [
-            {"id": "4dx7-axux", "join_column": "address", "category": "building_permits", "label": "DOB Facades/FISP"}
-          ]
-        },
-        {
-          "name": "NYC DOB Asbestos Control Activity",
+          "name": "DEC \u2014 Environmental Permits & Remediation Sites",
           "source_type": "environmental",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gisservices.dec.ny.gov",
+          "service": "gis/dil",
           "datasets": [
-            {"id": "8isn-pgv3", "join_column": "address", "category": "environmental", "label": "DOB Asbestos Control"}
-          ]
+            {
+              "layer_id": 0,
+              "label": "Remediation Sites"
+            },
+            {
+              "layer_id": 1,
+              "label": "PBS Facilities"
+            },
+            {
+              "layer_id": 2,
+              "label": "CBS Facilities"
+            },
+            {
+              "layer_id": 5,
+              "label": "Air Facility Permits"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "verified": "2026-05-10"
         },
         {
-          "name": "NYC HPD Registrations",
+          "name": "DOS \u2014 Business Entity Search & Contractor Licensing",
+          "source_type": "business_licenses",
+          "platform": "custom",
+          "integration_type": "agentic",
+          "endpoint": "https://appext20.dos.ny.gov/lcns_public/",
+          "fallback_url": "https://www.dos.ny.gov/corps/bus_entity_search.html",
+          "priority_tier": 3,
+          "data_quality_score": 0.8,
+          "verified": "2026-05-10"
+        },
+        {
+          "name": "NY Open Data \u2014 Multi-Agency Datasets",
+          "source_type": "open_data",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.ny.gov",
+          "datasets": [
+            {
+              "id": "dpc7-d6p2",
+              "label": "Code Enforcement Activities",
+              "join_column": "address"
+            },
+            {
+              "id": "wujg-7c2s",
+              "label": "Real Property Assessment Data",
+              "join_column": "sbl"
+            },
+            {
+              "id": "tnfe-tw2t",
+              "label": "Energy Benchmarking",
+              "join_column": "address_1"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "verified": "2026-05-10"
+        }
+      ]
+    },
+    "CO": {
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.colorado.gov",
+          "name": "Colorado State Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "tuvj-xz3m",
+              "join_column": "siteAddress"
+            },
+            {
+              "id": "869n-zj3f",
+              "join_column": "address"
+            },
+            {
+              "id": "6ytb-f2cq",
+              "join_column": "Address"
+            },
+            {
+              "id": "cx7q-izrb",
+              "join_column": "address"
+            },
+            {
+              "id": "hfwh-wsgi",
+              "join_column": "address"
+            },
+            {
+              "id": "cfyk-gwjj",
+              "join_column": "Location (address)"
+            }
+          ]
+        }
+      ]
+    },
+    "IL": {
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.illinois.gov",
+          "name": "Illinois State Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "s2ps-ct5e",
+              "join_column": "address"
+            },
+            {
+              "id": "vzjr-d62i",
+              "join_column": "MAPPING ADDRESS"
+            },
+            {
+              "id": "5r4s-jwyk",
+              "join_column": "address"
+            },
+            {
+              "id": "jnbr-y3e3",
+              "join_column": "Property Address"
+            },
+            {
+              "id": "k5wm-jkx9",
+              "join_column": "Property Address"
+            },
+            {
+              "id": "duif-eqac",
+              "join_column": "address"
+            },
+            {
+              "id": "8hn3-tczs",
+              "join_column": "address"
+            },
+            {
+              "id": "ka5a-8k33",
+              "join_column": "address"
+            },
+            {
+              "id": "pbhq-3u4i",
+              "join_column": "address"
+            },
+            {
+              "id": "bb5b-pam9",
+              "join_column": "address"
+            },
+            {
+              "id": "uh7y-fpmc",
+              "join_column": "address"
+            },
+            {
+              "id": "it54-y4c6",
+              "join_column": "address"
+            }
+          ]
+        }
+      ]
+    },
+    "PA": {
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.pa.gov",
+          "name": "Pennsylvania State Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "pedd-rnfm",
+              "join_column": "address"
+            },
+            {
+              "id": "6kvs-ck8u",
+              "join_column": "Address 2"
+            },
+            {
+              "id": "etb6-jzdg",
+              "join_column": "Address"
+            },
+            {
+              "id": "f8fx-8zip",
+              "join_column": "Latitude/Longitude Geo-referenced Column (address)"
+            },
+            {
+              "id": "6fdb-j3fk",
+              "join_column": "Gross Allocation"
+            },
+            {
+              "id": "7tik-q5zy",
+              "join_column": "address"
+            },
+            {
+              "id": "p7sf-rbb5",
+              "join_column": "address"
+            },
+            {
+              "id": "xsm2-kreq",
+              "join_column": "address"
+            },
+            {
+              "id": "pqba-6idx",
+              "join_column": "address"
+            }
+          ]
+        }
+      ]
+    },
+    "NJ": {
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.nj.gov",
+          "name": "New Jersey State Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "kie7-5sud",
+              "join_column": "address"
+            },
+            {
+              "id": "9qfp-48xj",
+              "join_column": "address"
+            },
+            {
+              "id": "u3ag-s7w6",
+              "join_column": "address"
+            },
+            {
+              "id": "j2rb-g65t",
+              "join_column": "address"
+            },
+            {
+              "id": "q8ec-3etm",
+              "join_column": "address"
+            },
+            {
+              "id": "t6tk-mr48",
+              "join_column": "Georeferenced Column (address)"
+            },
+            {
+              "id": "9qpt-bnm4",
+              "join_column": "Street Address"
+            },
+            {
+              "id": "j9i2-jh6f",
+              "join_column": "address"
+            },
+            {
+              "id": "bqxi-fi4r",
+              "join_column": "address"
+            },
+            {
+              "id": "hn62-fgp4",
+              "join_column": "address"
+            },
+            {
+              "id": "w9se-dmra",
+              "join_column": "address"
+            }
+          ]
+        }
+      ]
+    },
+    "WA": {
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.wa.gov",
+          "name": "Washington State Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "wu7y-rbw5",
+              "join_column": "address"
+            },
+            {
+              "id": "k67g-t283",
+              "join_column": "address"
+            },
+            {
+              "id": "a4ma-dq6s",
+              "join_column": "address"
+            },
+            {
+              "id": "tb2x-p7u5",
+              "join_column": "address"
+            },
+            {
+              "id": "hw7n-fcif",
+              "join_column": "address"
+            },
+            {
+              "id": "28ar-n972",
+              "join_column": "address"
+            },
+            {
+              "id": "6fex-3r7d",
+              "join_column": "Release Location"
+            },
+            {
+              "id": "7yy6-89nx",
+              "join_column": "Address"
+            },
+            {
+              "id": "vhe5-ishr",
+              "join_column": "Address"
+            },
+            {
+              "id": "wmtw-ckd3",
+              "join_column": "address"
+            }
+          ]
+        }
+      ]
+    },
+    "OR": {
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.oregon.gov",
+          "name": "Oregon State Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "qbd4-4qzh",
+              "join_column": "address"
+            },
+            {
+              "id": "xc4e-hg3n",
+              "join_column": "address"
+            },
+            {
+              "id": "9x7t-w4u8",
+              "join_column": "Address"
+            },
+            {
+              "id": "wxrq-b8ii",
+              "join_column": "address"
+            },
+            {
+              "id": "vhbr-cuaq",
+              "join_column": "Addr1"
+            }
+          ]
+        }
+      ]
+    },
+    "CT": {
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.ct.gov",
+          "name": "Connecticut State Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "ccit-2ev8",
+              "join_column": "address"
+            },
+            {
+              "id": "jis9-5rj9",
+              "join_column": "Facility Addr"
+            },
+            {
+              "id": "t2bf-45ba",
+              "join_column": "Violation Address"
+            },
+            {
+              "id": "i2yq-278d",
+              "join_column": "Address"
+            },
+            {
+              "id": "y43c-qm83",
+              "join_column": "WebAddress"
+            },
+            {
+              "id": "8scv-hauj",
+              "join_column": "WebAddress"
+            },
+            {
+              "id": "6rnk-h6iy",
+              "join_column": "address"
+            },
+            {
+              "id": "24pv-55ix",
+              "join_column": "address"
+            },
+            {
+              "id": "2yhr-esw9",
+              "join_column": "address"
+            },
+            {
+              "id": "wmfh-25km",
+              "join_column": "address"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "counties": {
+    "dallas-county-tx": {
+      "label": "Dallas County",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "DCAD \u2014 Dallas Central Appraisal District",
+          "source_type": "tax_assessment",
+          "platform": "custom",
+          "integration_type": "agentic",
+          "endpoint": "https://www.dallascad.org/SearchAddr.aspx",
+          "join_key": "account_number",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "verified": "2026-05-15"
+        },
+        {
+          "name": "Dallas County GIS \u2014 Parcel & Zoning Layers",
           "source_type": "property_records",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "datasets": [
-            {"id": "e5aq-a4j2", "join_column": "address", "category": "property_records", "label": "HPD Registrations"}
-          ]
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "maps.dallascounty.org/arcgis/rest/services",
+          "service": "Public/Parcels",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-05-15"
         },
         {
-          "name": "NYC Oil Boiler Compliance (DEP)",
-          "source_type": "environmental",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "datasets": [
-            {"id": "kfp4-dz4h", "join_column": "address", "category": "environmental", "label": "Oil Boiler Compliance"}
-          ]
+          "name": "Dallas County Clerk \u2014 Deed & Lien Records",
+          "source_type": "property_records",
+          "platform": "OnBase",
+          "integration_type": "agentic",
+          "endpoint": "https://records.dallascounty.org/AcclaimWeb/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "verified": "2026-05-15"
         },
         {
-          "name": "NYC DOH Restaurant Inspections",
-          "source_type": "health_inspections",
-          "platform": "Socrata",
-          "host": "data.cityofnewyork.us",
-          "datasets": [
-            {"id": "43nn-pn8j", "join_column": "address", "category": "health_inspections", "label": "DOH Restaurant Inspections"}
-          ]
+          "name": "Dallas County Fire Marshal \u2014 Inspection Reports",
+          "source_type": "fire_inspections",
+          "platform": "custom",
+          "integration_type": "agentic",
+          "endpoint": "https://www.dallascounty.org/departments/fire-marshal/",
+          "priority_tier": 2,
+          "data_quality_score": 0.6,
+          "verified": "2026-05-15"
         },
         {
-          "name": "NYC DOB Stalled Construction",
+          "name": "Dallas County Tax Office \u2014 Delinquency & Payment Records",
+          "source_type": "tax_assessment",
+          "platform": "custom",
+          "integration_type": "agentic",
+          "endpoint": "https://www.dallascounty.org/tax/",
+          "join_key": "account_number",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "verified": "2026-05-15"
+        }
+      ]
+    },
+    "hanover-county-va": {
+      "label": "Hanover County",
+      "state": "VA",
+      "sources": [
+        {
+          "name": "Hanover County eTRAKiT \u2014 Permits & Inspections",
+          "source_type": "building_permits",
+          "platform": "eTRAKiT",
+          "integration_type": "agentic",
+          "endpoint": "https://etrakit.hanovercounty.gov/etrakit3/",
+          "priority_tier": 1,
+          "data_quality_score": 0.75,
+          "verified": "2026-05-15"
+        },
+        {
+          "name": "Hanover County \u2014 Active Development Projects",
+          "source_type": "planning",
+          "platform": "custom",
+          "integration_type": "agentic",
+          "endpoint": "https://www.hanovercounty.gov/356/Current-Applications",
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-05-15"
+        },
+        {
+          "name": "Hanover County Real Estate Assessment",
+          "source_type": "tax_assessment",
+          "platform": "custom",
+          "integration_type": "agentic",
+          "endpoint": "https://www.hanovercounty.gov/167/Real-Estate-Information",
+          "join_key": "parcel_id",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-05-15"
+        },
+        {
+          "name": "Hanover County \u2014 Building Inspections & Code Enforcement",
+          "source_type": "code_enforcement",
+          "platform": "eTRAKiT",
+          "integration_type": "agentic",
+          "endpoint": "https://etrakit.hanovercounty.gov/etrakit3/",
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-05-15"
+        }
+      ]
+    }
+  },
+  "cities": {
+    "new-york-ny": {
+      "label": "New York City",
+      "state": "NY",
+      "sources": [
+        {
+          "name": "NYC DOB Permit Issuance + Job Filings",
           "source_type": "building_permits",
           "platform": "Socrata",
           "host": "data.cityofnewyork.us",
           "datasets": [
-            {"id": "bsin-59hv", "join_column": "address", "category": "building_permits", "label": "Stalled Construction Sites"}
-          ]
+            {
+              "id": "ipu4-2q9a",
+              "join_column": "street_name",
+              "join_key": "bin"
+            },
+            {
+              "id": "ic3t-wcy2",
+              "join_column": "street_name",
+              "join_key": "bbl"
+            },
+            {
+              "id": "rbx6-tga4",
+              "join_column": "owner_street_address",
+              "join_key": "bin"
+            },
+            {
+              "id": "w9ak-ipjd",
+              "join_column": "street_name",
+              "join_key": "bin"
+            },
+            {
+              "id": "3h2n-5cm9",
+              "join_column": "street"
+            },
+            {
+              "id": "6bgk-3dad",
+              "join_column": "respondent_street"
+            },
+            {
+              "id": "wvxf-dwi5",
+              "join_column": "streetname"
+            },
+            {
+              "id": "p937-wjvj",
+              "join_column": "location_address"
+            },
+            {
+              "id": "jzhd-m6uv",
+              "join_column": "address_type"
+            },
+            {
+              "id": "4dx7-axux",
+              "join_column": "businessaddress"
+            },
+            {
+              "id": "43nn-pn8j",
+              "join_column": "location"
+            },
+            {
+              "id": "855j-jady",
+              "join_column": "street"
+            },
+            {
+              "id": "f4rp-2kvy",
+              "join_column": "street"
+            },
+            {
+              "id": "8isn-pgv3",
+              "join_column": "street_address"
+            },
+            {
+              "id": "e5aq-a4j2",
+              "join_column": "street_name"
+            },
+            {
+              "id": "kfp4-dz4h",
+              "join_column": "designprofessional_address"
+            },
+            {
+              "id": "bsin-59hv",
+              "join_column": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.95
         },
         {
           "name": "NYC DOB Boiler Compliance",
           "source_type": "elevator_boiler",
           "platform": "Socrata",
           "host": "data.cityofnewyork.us",
-          "datasets": [
-            {"id": "52dp-yji6", "join_column": "address", "category": "building_permits", "label": "DOB Boiler Compliance"}
-          ]
+          "datasets": [],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
         },
         {
           "name": "NYC DOB Elevator Compliance",
@@ -167,8 +908,276 @@
           "platform": "Socrata",
           "host": "data.cityofnewyork.us",
           "datasets": [
-            {"id": "855j-jady", "join_column": "address", "category": "building_permits", "label": "DOB Elevator Compliance"}
-          ]
+            {
+              "id": "e5aq-a4j2",
+              "join_column": "street_name",
+              "join_key": "bbl"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC DOB Facades/FISP",
+          "source_type": "facades",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "xubg-57si",
+              "join_column": "street_name",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC DOB Violations",
+          "source_type": "violations",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "3h2n-5cm9",
+              "join_column": "street",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC ECB/OATH Violations",
+          "source_type": "violations",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "6bgk-3dad",
+              "join_column": "respondent_street",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC HPD Housing Maintenance Code Violations",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "wvxf-dwi5",
+              "join_column": "streetname",
+              "join_key": "bbl"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 2,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC HPD Complaints",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "b2iz-pps8",
+              "join_column": "streetname",
+              "join_key": "bbl"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 2,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC DCP PLUTO Property Records",
+          "source_type": "property_records",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "64uk-42ks",
+              "join_column": "address",
+              "join_key": "bbl"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 1,
+          "priority_tier": 2,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC DOF Property Valuation & Assessment",
+          "source_type": "tax_assessment",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "yjxr-fw8i",
+              "join_column": "staddr",
+              "join_key": "bbl"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 5,
+          "priority_tier": 3,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC FDNY Fire Alarm Inspections",
+          "source_type": "fire_inspections",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "ssq6-fkht",
+              "join_column": "street",
+              "join_key": "bbl"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 2,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC DOB Certificate of Occupancy",
+          "source_type": "certificate_of_occupancy",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "bs8b-p36w",
+              "join_column": "location_address",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 5,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC DOB Asbestos Control Activity",
+          "source_type": "environmental",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "p937-wjvj",
+              "join_column": "location_address",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "NYC HPD Registrations",
+          "source_type": "property_records",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "tesw-yqqr",
+              "join_column": "streetname",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 5,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "NYC HPD Boiler Registrations",
+          "source_type": "elevator_boiler",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "f4rp-2kvy",
+              "join_column": "street",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "NYC Oil Boiler Compliance (DEP AEP)",
+          "source_type": "environmental",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "hcir-3275",
+              "join_column": "street_address",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 5,
+          "priority_tier": 2,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "NYC DOH Restaurant Inspections",
+          "source_type": "health_inspections",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "43nn-pn8j",
+              "join_column": "location",
+              "join_key": "house_number"
+            },
+            {
+              "id": "43nn-pn8j",
+              "join_column": "location",
+              "join_key": "camis"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "NYC DOB Stalled Construction Sites",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "host": "data.cityofnewyork.us",
+          "datasets": [
+            {
+              "id": "xbth-gqjq",
+              "join_column": "bin",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 5,
+          "priority_tier": 2,
+          "data_quality_score": 0.8
         },
         {
           "name": "NYC HPD Litigations",
@@ -176,34 +1185,3400 @@
           "platform": "Socrata",
           "host": "data.cityofnewyork.us",
           "datasets": [
-            {"id": "f4rp-2kvy", "join_column": "Street", "category": "violations", "label": "HPD Litigations"}
-          ]
+            {
+              "id": "59kj-x8am",
+              "join_column": "bin",
+              "join_key": "bin"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
         },
         {
           "name": "NYC 311 Service Requests",
-          "source_type": "complaints",
-          "platform": "three11",
+          "source_type": "open_data",
+          "platform": "Socrata",
           "host": "data.cityofnewyork.us",
           "datasets": [
-            {"id": "erm2-nwe9", "join_column": "incident_address", "category": "complaints", "label": "311 Service Requests"}
+            {
+              "id": "erm2-nwe9",
+              "join_column": "incident_address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 5,
+          "priority_tier": 4,
+          "data_quality_score": 0.7
+        }
+      ],
+      "identity_resolution": {
+        "primary": "geosearch.planninglabs.nyc",
+        "fallback": [
+          "PLUTO 64uk-42ks",
+          "DOB ic3t-wcy2"
+        ]
+      }
+    },
+    "buffalo-ny": {
+      "label": "Buffalo",
+      "state": "NY",
+      "sources": [
+        {
+          "name": "Buffalo Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.buffalony.gov",
+          "datasets": [
+            {
+              "id": "ivrf-k9vm",
+              "join_column": "address"
+            },
+            {
+              "id": "ttcu-5ptx",
+              "join_column": "address"
+            },
+            {
+              "id": "92f7-79yg",
+              "join_column": "address"
+            },
+            {
+              "id": "nbwt-qpe7",
+              "join_column": "location"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Buffalo Open Data \u2014 311 Service Requests",
+          "source_type": "open_data",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.buffalony.gov",
+          "datasets": [
+            {
+              "id": "whkc-e5vr",
+              "join_column": "location_address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 3,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Erie County Real Property",
+          "source_type": "tax_assessment",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis2.erie.gov/arcgis/rest/services",
+          "service": "Parcels/Parcels",
+          "layer_id": 0,
+          "priority_tier": 2,
+          "data_quality_score": 0.8
+        }
+      ]
+    },
+    "saratoga-springs-ny": {
+      "label": "Saratoga Springs",
+      "state": "NY",
+      "sources": [
+        {
+          "name": "Saratoga Springs \u2014 Building Permits (eTRAKiT)",
+          "source_type": "building_permits",
+          "platform": "eTRAKiT",
+          "integration_type": "agentic",
+          "endpoint": "https://etrakit.saratoga-springs.org/etrakit/",
+          "priority_tier": 1,
+          "data_quality_score": 0.7
+        },
+        {
+          "name": "Saratoga County Real Property",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.saratogacountyny.gov/departments/real-property-tax-services/",
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "portal_url": ""
+        }
+      ]
+    },
+    "gilbert-az": {
+      "label": "Gilbert",
+      "state": "AZ",
+      "sources": [
+        {
+          "name": "Gilbert Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "data.gilbertaz.gov/arcgis/rest/services",
+          "service": "OpenData/Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Gilbert GIS \u2014 Parcels & Zoning",
+          "source_type": "property_records",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "data.gilbertaz.gov/arcgis/rest/services",
+          "service": "OpenData/Parcels",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Maricopa County Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://mcassessor.maricopa.gov/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "phoenix-az": {
+      "label": "Phoenix",
+      "state": "AZ",
+      "sources": [],
+      "_note": "Phoenix building permit data is not available via API. The CKAN portal only has aggregate totals."
+    },
+    "anaheim-ca": {
+      "label": "Anaheim",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Anaheim Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services5.arcgis.com/KHdY0WAXACkdaaGH/arcgis/rest/services",
+          "service": "Building_Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Anaheim \u2014 Code Enforcement Cases",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services5.arcgis.com/KHdY0WAXACkdaaGH/arcgis/rest/services",
+          "service": "Code_Enforcement",
+          "layer_id": 0,
+          "priority_tier": 2,
+          "data_quality_score": 0.75
+        },
+        {
+          "name": "Orange County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.ocgov.com/gov/assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "dana-point-ca": {
+      "label": "Dana Point",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Dana Point \u2014 Community Development Permits",
+          "source_type": "building_permits",
+          "platform": "eTRAKiT",
+          "integration_type": "agentic",
+          "endpoint": "https://www.danapoint.org/departments/community-development/building-safety",
+          "priority_tier": 1,
+          "data_quality_score": 0.65
+        },
+        {
+          "name": "Orange County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.ocgov.com/gov/assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "irvine-ca": {
+      "label": "Irvine",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Irvine Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "opendata.cityofirvine.org/arcgis/rest/services",
+          "service": "Building_Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Irvine Open Data \u2014 Code Enforcement",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "opendata.cityofirvine.org/arcgis/rest/services",
+          "service": "Code_Enforcement",
+          "layer_id": 0,
+          "priority_tier": 2,
+          "data_quality_score": 0.75
+        },
+        {
+          "name": "Orange County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.ocgov.com/gov/assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "los-angeles-ca": {
+      "label": "Los Angeles",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "LA LADBS \u2014 Building Permits 2020-Present",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.lacity.org",
+          "datasets": [
+            {
+              "id": "pi9x-tg5x",
+              "join_column": "primary_address",
+              "join_key": "apn"
+            },
+            {
+              "id": "pi9x-tg5x",
+              "join_column": "primary_address",
+              "join_key": "address"
+            },
+            {
+              "id": "ckya-qgys",
+              "join_column": "facility_address"
+            },
+            {
+              "id": "u82d-eh7z",
+              "join_column": "stname"
+            },
+            {
+              "id": "wjz9-h9np",
+              "join_column": "location"
+            },
+            {
+              "id": "rken-a55j",
+              "join_column": "stname"
+            },
+            {
+              "id": "9w5z-rg2h",
+              "join_column": "address"
+            },
+            {
+              "id": "29fd-3paw",
+              "join_column": "facility_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.95
+        },
+        {
+          "name": "LA County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://portal.assessor.lacounty.gov/",
+          "join_key": "ain",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        },
+        {
+          "name": "LA GeoHub \u2014 Parcels & Zoning",
+          "source_type": "property_records",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services5.arcgis.com/7nsPwEMP38bSkCjy/arcgis/rest/services",
+          "service": "Parcels",
+          "layer_id": 0,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "LA MyLA311 Cases (2026)",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.lacity.org",
+          "datasets": [
+            {
+              "id": "2cy6-i7zn",
+              "join_column": "location",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "LA MyLA311 Cases (2025)",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.lacity.org",
+          "datasets": [
+            {
+              "id": "73a2-6ar5",
+              "join_column": "location",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "oakland-ca": {
+      "label": "Oakland",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Oakland \u2014 Building Permits (Socrata)",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.oaklandca.gov",
+          "datasets": [
+            {
+              "id": "58em-y96b",
+              "join_column": "location"
+            },
+            {
+              "id": "jjeh-vzgn",
+              "join_column": "street_no"
+            },
+            {
+              "id": "aqjd-9iht",
+              "join_column": "location"
+            },
+            {
+              "id": "a58z-jdqx",
+              "join_column": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Alameda County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.acgov.org/assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        },
+        {
+          "name": "Oakland \u2014 Active Building Permits (ArcGIS)",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/zNjnZafDYCAJAbN0",
+          "service": "arcgis/rest/services/Active_Building_Permits_view/FeatureServer",
+          "layer_id": 0,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "redwood-city-ca": {
+      "label": "Redwood City",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "San Mateo County Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.smcacre.org/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "sacramento-ca": {
+      "label": "Sacramento",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Sacramento County Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://assessor.saccounty.gov/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "san-diego-ca": {
+      "label": "San Diego",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "San Diego County Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://arcc-detail.sdcounty.ca.gov/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "san-francisco-ca": {
+      "label": "San Francisco",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "SF DBI \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.sfgov.org",
+          "datasets": [
+            {
+              "id": "i98e-djp9",
+              "join_column": "location",
+              "join_key": "address"
+            },
+            {
+              "id": "p4e4-a5a7",
+              "join_column": "location",
+              "join_key": "parcel"
+            },
+            {
+              "id": "4zuq-2cbe",
+              "join_column": "address"
+            },
+            {
+              "id": "nbtm-fbw5",
+              "join_column": "location"
+            },
+            {
+              "id": "sd75-dps9",
+              "join_column": "location"
+            },
+            {
+              "id": "ab4h-6ztd",
+              "join_column": "citation_location"
+            },
+            {
+              "id": "pyih-qa8i",
+              "join_column": "business_address"
+            },
+            {
+              "id": "wb4c-6hwj",
+              "join_column": "address"
+            },
+            {
+              "id": "gm2e-bten",
+              "join_column": "street_number"
+            },
+            {
+              "id": "5dp4-gtxk",
+              "join_column": "street_number"
+            },
+            {
+              "id": "tyz3-vt28",
+              "join_column": "streetno"
+            },
+            {
+              "id": "qxw2-ncq3",
+              "join_column": "location"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "SF DBI \u2014 Complaints & Violations",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.sfgov.org",
+          "datasets": [
+            {
+              "id": "nbtm-fbw5",
+              "join_column": "location",
+              "join_key": "address"
+            },
+            {
+              "id": "r6tj-2mh8",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "SF Assessor-Recorder \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.sfgov.org",
+          "datasets": [
+            {
+              "id": "wv5m-vpq2",
+              "join_column": "property_location",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "SFFD \u2014 Fire Inspections",
+          "source_type": "fire_inspections",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.sfgov.org",
+          "datasets": [
+            {
+              "id": "wb4c-6hwj",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "SF Planning \u2014 Zoning & Land Use",
+          "source_type": "planning",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services.sfgov.org/arcgis/rest/services",
+          "service": "sfplan/Zoning",
+          "layer_id": 0,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "SF 311 Cases",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.sfgov.org",
+          "datasets": [
+            {
+              "id": "ktji-gk7t",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "san-jose-ca": {
+      "label": "San Jose",
+      "state": "CA",
+      "sources": [],
+      "_note": "San Jose CKAN building permits lack usable address fields in datastore."
+    },
+    "santa-monica-ca": {
+      "label": "Santa Monica",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "LA County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://portal.assessor.lacounty.gov/",
+          "priority_tier": 2,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        }
+      ]
+    },
+    "union-city-ca": {
+      "label": "Union City",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Union City \u2014 Building & Planning Permits",
+          "source_type": "building_permits",
+          "platform": "eTRAKiT",
+          "integration_type": "agentic",
+          "endpoint": "https://www.unioncity.org/213/Building-Division",
+          "priority_tier": 1,
+          "data_quality_score": 0.65
+        },
+        {
+          "name": "Alameda County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.acgov.org/assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "washington-dc": {
+      "label": "Washington DC",
+      "state": "DC",
+      "sources": [
+        {
+          "name": "DC DCRA \u2014 Building Permits 2024",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "maps2.dcgis.dc.gov",
+          "service": "dcgis/rest/services/FEEDS/DCRA",
+          "layer_id": 16,
+          "join_column": "FULL_ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "DC DCRA \u2014 Building Permits 2025",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "maps2.dcgis.dc.gov",
+          "service": "dcgis/rest/services/FEEDS/DCRA",
+          "layer_id": 17,
+          "join_column": "FULL_ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "DC DCRA \u2014 Building Permits 2026",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "maps2.dcgis.dc.gov",
+          "service": "dcgis/rest/services/FEEDS/DCRA",
+          "layer_id": 18,
+          "join_column": "FULL_ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "DC DCRA \u2014 Business Licenses",
+          "source_type": "business_licenses",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "maps2.dcgis.dc.gov",
+          "service": "dcgis/rest/services/FEEDS/DCRA",
+          "layer_id": 13,
+          "join_column": "FULL_ADDRESS",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-18"
+        }
+      ]
+    },
+    "miami-fl": {
+      "label": "Miami",
+      "state": "FL",
+      "sources": [
+        {
+          "name": "Miami Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services.arcgis.com/8Pc9XBTAsYuxx9Ny/arcgis/rest/services",
+          "service": "Building_Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Miami-Dade Property Appraiser",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.miamidade.gov/Apps/PA/propertysearch/",
+          "join_key": "folio",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        },
+        {
+          "name": "Miami-Dade County \u2014 Code Enforcement",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services.arcgis.com/8Pc9XBTAsYuxx9Ny/arcgis/rest/services",
+          "service": "Code_Enforcement",
+          "layer_id": 0,
+          "priority_tier": 2,
+          "data_quality_score": 0.75
+        },
+        {
+          "name": "Miami Fire Department \u2014 Inspections",
+          "source_type": "fire_inspections",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.miamigov.com/Government/Departments-Organizations/Fire-Rescue",
+          "priority_tier": 2,
+          "data_quality_score": 0.65,
+          "portal_url": ""
+        }
+      ]
+    },
+    "honolulu-hi": {
+      "label": "Honolulu",
+      "state": "HI",
+      "sources": [
+        {
+          "name": "Honolulu \u2014 Real Property Assessment",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.realpropertyhonolulu.com/",
+          "join_key": "tmk",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        },
+        {
+          "name": "Honolulu 311 Reports",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.honolulu.gov",
+          "datasets": [
+            {
+              "id": "jdy7-ftwe",
+              "join_column": "street",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "chicago-il": {
+      "label": "Chicago",
+      "state": "IL",
+      "sources": [
+        {
+          "name": "Chicago Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.cityofchicago.org",
+          "datasets": [
+            {
+              "id": "ydr8-5enu",
+              "join_column": "location",
+              "join_key": "address"
+            },
+            {
+              "id": "22u3-xenr",
+              "join_column": "address"
+            },
+            {
+              "id": "6br9-quuz",
+              "join_column": "address"
+            },
+            {
+              "id": "hhkd-xvj4",
+              "join_column": "address"
+            },
+            {
+              "id": "spqx-js37",
+              "join_column": "address"
+            },
+            {
+              "id": "4ijn-s7e5",
+              "join_column": "address"
+            },
+            {
+              "id": "i9rk-duva",
+              "join_column": "address"
+            },
+            {
+              "id": "zgvr-7yfd",
+              "join_column": "estimated_location_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "Chicago \u2014 Building Violations",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.cityofchicago.org",
+          "datasets": [
+            {
+              "id": "22u3-xenr",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "Cook County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.cookcountyassessor.com/",
+          "join_key": "pin",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        },
+        {
+          "name": "Chicago \u2014 311 Service Requests",
+          "source_type": "open_data",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.cityofchicago.org",
+          "datasets": [
+            {
+              "id": "v6vf-nfxy",
+              "join_column": "street_address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 3,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Chicago \u2014 Business Licenses",
+          "source_type": "business_licenses",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.cityofchicago.org",
+          "datasets": [
+            {
+              "id": "r5kz-chrr",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 3,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "lexington-ky": {
+      "label": "Lexington",
+      "state": "KY",
+      "sources": [
+        {
+          "name": "Lexington Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "data-lfucg.hub.arcgis.com",
+          "service": "Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Lexington \u2014 Code Enforcement",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "data-lfucg.hub.arcgis.com",
+          "service": "Code_Enforcement",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Fayette County PVA",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://fayettepva.com/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "louisville-ky": {
+      "label": "Louisville",
+      "state": "KY",
+      "sources": [
+        {
+          "name": "Louisville Metro KY \u2014 Active Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/79kfd2K6fskCAkyg",
+          "service": "arcgis/rest/services/Louisville_Metro_KY_Active_Permits",
+          "layer_id": 0,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Louisville Metro KY \u2014 All Permits (Historical)",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/79kfd2K6fskCAkyg",
+          "service": "arcgis/rest/services/Louisville_Metro_KY_All_Permits_(Historical)",
+          "layer_id": 0,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Louisville Metro KY \u2014 Building Code Enforcement",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/79kfd2K6fskCAkyg",
+          "service": "arcgis/rest/services/Louisville_Metro_KY_Building_Code_Permit_Enforcement_Cases",
+          "layer_id": 0,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Jefferson County PVA",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://jeffersonpva.ky.gov/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "baton-rouge-la": {
+      "label": "Baton Rouge",
+      "state": "LA",
+      "sources": [
+        {
+          "name": "Baton Rouge Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.brla.gov",
+          "datasets": [
+            {
+              "id": "ux2t-b9wr",
+              "join_column": "address_full_core"
+            },
+            {
+              "id": "h453-hp7u",
+              "join_column": "full_address"
+            },
+            {
+              "id": "bktv-u9ua",
+              "join_column": "address"
+            },
+            {
+              "id": "2jru-byiu",
+              "join_column": "geolocation_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "EBR Parish Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.ebrpa.org/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "new-orleans-la": {
+      "label": "New Orleans",
+      "state": "LA",
+      "sources": [
+        {
+          "name": "New Orleans Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.nola.gov",
+          "datasets": [
+            {
+              "id": "3ehi-je3s",
+              "join_column": "location"
+            },
+            {
+              "id": "va3u-jspg",
+              "join_column": "location"
+            },
+            {
+              "id": "grqp-bvwk",
+              "join_column": "violationaddress"
+            },
+            {
+              "id": "u6yx-v2tw",
+              "join_column": "location"
+            },
+            {
+              "id": "uh5a-f7uw",
+              "join_column": "location"
+            },
+            {
+              "id": "2zer-6wpb",
+              "join_column": "location_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "New Orleans \u2014 Code Enforcement",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.nola.gov",
+          "datasets": [
+            {
+              "id": "u6yx-v2tw",
+              "join_column": "location",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Orleans Parish Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.nolaassessor.com/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "boston-ma": {
+      "label": "Boston",
+      "state": "MA",
+      "sources": [
+        {
+          "name": "Boston \u2014 Approved Building Permits",
+          "source_type": "building_permits",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.boston.gov",
+          "datasets": [
+            {
+              "id": "6ddcd912-32a0-43df-9908-63574f8c7e77",
+              "join_column": "address"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Boston \u2014 Building and Property Violations",
+          "source_type": "code_enforcement",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.boston.gov",
+          "datasets": [
+            {
+              "id": "800a2663-1d6a-46e7-9356-bedb70f5332c",
+              "join_column": "address"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        }
+      ]
+    },
+    "cambridge-ma": {
+      "label": "Cambridge",
+      "state": "MA",
+      "sources": [
+        {
+          "name": "Cambridge Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.cambridgema.gov",
+          "datasets": [
+            {
+              "id": "f8su-kv88",
+              "join_column": "full_address"
+            },
+            {
+              "id": "q8b2-58ab",
+              "join_column": "location_1_address"
+            },
+            {
+              "id": "gyig-vxkp",
+              "join_column": "address"
+            },
+            {
+              "id": "vnxa-cuyr",
+              "join_column": "location"
+            },
+            {
+              "id": "gmq6-8ver",
+              "join_column": "location_address"
+            },
+            {
+              "id": "ryb9-qzmw",
+              "join_column": "full_address"
+            },
+            {
+              "id": "jrxr-y9ty",
+              "join_column": "full_address"
+            },
+            {
+              "id": "5cra-jws5",
+              "join_column": "full_address"
+            },
+            {
+              "id": "4rb4-q8tj",
+              "join_column": "full_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "somerville-ma": {
+      "label": "Somerville",
+      "state": "MA",
+      "sources": [
+        {
+          "name": "Somerville Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.somervillema.gov",
+          "datasets": [
+            {
+              "id": "3mqx-eye9",
+              "join_column": "address"
+            },
+            {
+              "id": "mtik-28va",
+              "join_column": "address"
+            },
+            {
+              "id": "vxgw-vmky",
+              "join_column": "address"
+            },
+            {
+              "id": "nneb-s3f7",
+              "join_column": "application_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Somerville Permits & Licenses (Comprehensive)",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.somervillema.gov",
+          "datasets": [
+            {
+              "id": "nneb-s3f7",
+              "join_column": "application_address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "baltimore-md": {
+      "label": "Baltimore",
+      "state": "MD",
+      "sources": []
+    },
+    "detroit-mi": {
+      "label": "Detroit",
+      "state": "MI",
+      "sources": [
+        {
+          "name": "Wayne County Treasurer \u2014 Property Tax",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.waynecounty.com/elected/treasurer/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "minneapolis-mn": {
+      "label": "Minneapolis",
+      "state": "MN",
+      "sources": [
+        {
+          "name": "Hennepin County \u2014 Property Assessment",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.hennepin.us/residents/property/property-information-search",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "saint-paul-mn": {
+      "label": "Saint Paul",
+      "state": "MN",
+      "sources": [
+        {
+          "name": "Ramsey County \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.co.ramsey.mn.us/prr/home.htm",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "kansas-city-mo": {
+      "label": "Kansas City",
+      "state": "MO",
+      "sources": [
+        {
+          "name": "Kansas City Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.kcmo.org",
+          "datasets": [
+            {
+              "id": "nhtf-e75a",
+              "join_column": "address"
+            },
+            {
+              "id": "vq3e-m9ge",
+              "join_column": "street_address"
+            },
+            {
+              "id": "sz9c-c5ux",
+              "join_column": "facility_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Kansas City \u2014 Code Violations",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.kcmo.org",
+          "datasets": [
+            {
+              "id": "nhtf-e75a",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Jackson County Assessment",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.jacksongov.org/629/Property-Search",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        },
+        {
+          "name": "Kansas City \u2014 Permits (Comprehensive)",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.kcmo.org",
+          "datasets": [
+            {
+              "id": "w8jz-wjgn",
+              "join_column": "main_address_line1",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Kansas City \u2014 311 Service Requests",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.kcmo.org",
+          "datasets": [
+            {
+              "id": "wkcf-5gd5",
+              "join_column": "incident_address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "saint-louis-mo": {
+      "label": "Saint Louis",
+      "state": "MO",
+      "sources": [
+        {
+          "name": "City of Saint Louis Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.stlouis-mo.gov/government/departments/assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "durham-nc": {
+      "label": "Durham",
+      "state": "NC",
+      "sources": [
+        {
+          "name": "Durham Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "live-durhamnc.opendata.arcgis.com",
+          "service": "Building_Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Durham County Tax Administration",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.dconc.gov/government/departments-f-z/tax-administration",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "raleigh-nc": {
+      "label": "Raleigh",
+      "state": "NC",
+      "sources": [
+        {
+          "name": "Raleigh Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "data-ral.opendata.arcgis.com",
+          "service": "Building_Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Wake County Revenue \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://services.wakegov.com/realestate/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "cincinnati-oh": {
+      "label": "Cincinnati",
+      "state": "OH",
+      "sources": [
+        {
+          "name": "Cincinnati Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.cincinnati-oh.gov",
+          "datasets": [
+            {
+              "id": "cncm-znd6",
+              "join_column": "full_address"
+            },
+            {
+              "id": "rg6p-b3h3",
+              "join_column": "address"
+            },
+            {
+              "id": "pk9w-99n6",
+              "join_column": "full_address"
+            },
+            {
+              "id": "ktgf-4sjh",
+              "join_column": "address_x"
+            },
+            {
+              "id": "ivda-umw7",
+              "join_column": "full_address"
+            },
+            {
+              "id": "uhjb-xac9",
+              "join_column": "originaladdress1"
+            },
+            {
+              "id": "thvx-5mem",
+              "join_column": "location"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Hamilton County Auditor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://wedge1.hcauditor.org/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        },
+        {
+          "name": "Cincinnati CCA Closed Complaints",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.cincinnati-oh.gov",
+          "datasets": [
+            {
+              "id": "ii65-eyg6",
+              "join_column": "address_x",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "columbus-oh": {
+      "label": "Columbus",
+      "state": "OH",
+      "sources": [
+        {
+          "name": "Columbus \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/9yy6msODkIBzkUXU",
+          "service": "arcgis/rest/services/Building_Permits",
+          "layer_id": 0,
+          "join_column": "SITE_ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Franklin County Auditor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.franklincountyauditor.com/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "philadelphia-pa": {
+      "label": "Philadelphia",
+      "state": "PA",
+      "sources": [
+        {
+          "name": "Philadelphia Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "CARTO",
+          "integration_type": "adapter",
+          "adapter_id": "carto",
+          "host": "phl.carto.com",
+          "datasets": [
+            {
+              "table": "permits",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Philadelphia \u2014 Violations (L&I)",
+          "source_type": "code_enforcement",
+          "platform": "CARTO",
+          "integration_type": "adapter",
+          "adapter_id": "carto",
+          "host": "phl.carto.com",
+          "datasets": [
+            {
+              "table": "violations",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Philadelphia OPA \u2014 Property Assessment",
+          "source_type": "tax_assessment",
+          "platform": "CARTO",
+          "integration_type": "adapter",
+          "adapter_id": "carto",
+          "host": "phl.carto.com",
+          "datasets": [
+            {
+              "table": "opa_properties_public",
+              "join_column": "location",
+              "join_key": "address"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "Philadelphia Fire Department \u2014 Inspections",
+          "source_type": "fire_inspections",
+          "platform": "CARTO",
+          "integration_type": "adapter",
+          "adapter_id": "carto",
+          "host": "phl.carto.com",
+          "datasets": [
+            {
+              "table": "fire_inspections",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "priority_tier": 2,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Philadelphia \u2014 Business Licenses (L&I)",
+          "source_type": "business_licenses",
+          "platform": "CARTO",
+          "integration_type": "adapter",
+          "adapter_id": "carto",
+          "host": "phl.carto.com",
+          "datasets": [
+            {
+              "table": "li_business_licenses",
+              "join_column": "business_address",
+              "join_key": "address"
+            }
+          ],
+          "priority_tier": 3,
+          "data_quality_score": 0.8
+        }
+      ],
+      "identity_resolution": {
+        "primary": "OPA parcel_number lookup",
+        "fallback": [
+          "opa_properties_public",
+          "Atlas API"
+        ]
+      }
+    },
+    "pittsburgh-pa": {
+      "label": "Pittsburgh",
+      "state": "PA",
+      "sources": [
+        {
+          "name": "Pittsburgh WPRDC \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.wprdc.org",
+          "datasets": [
+            {
+              "id": "2594e3f6-93a8-4682-9d4d-6e06b2e8b8e6",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Pittsburgh WPRDC \u2014 PLI Code Violations",
+          "source_type": "code_enforcement",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.wprdc.org",
+          "datasets": [
+            {
+              "id": "4e5374be-1a88-47f7-abee-85f0baf9a6e5",
+              "join_column": "street_address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Allegheny County \u2014 Property Assessment",
+          "source_type": "tax_assessment",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.wprdc.org",
+          "datasets": [
+            {
+              "id": "f2b8d575-532c-4c69-81f0-557e5e8ad4f4",
+              "join_column": "propertyhousenum||propertyfraction||propertystreet",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 5,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Pittsburgh \u2014 Fire Inspections",
+          "source_type": "fire_inspections",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.wprdc.org",
+          "datasets": [
+            {
+              "id": "c3c3e2e8-1c75-4c3a-b6a2-54e6d8721e59",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.8
+        }
+      ]
+    },
+    "providence-ri": {
+      "label": "Providence",
+      "state": "RI",
+      "sources": [
+        {
+          "name": "Providence Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.providenceri.gov",
+          "datasets": [
+            {
+              "id": "vank-fyx9",
+              "join_column": "from_address"
+            },
+            {
+              "id": "ufmm-rbej",
+              "join_column": "originaladdress1"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Providence Tax Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.providenceri.gov/tax-assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.75,
+          "portal_url": ""
+        }
+      ]
+    },
+    "memphis-tn": {
+      "label": "Memphis",
+      "state": "TN",
+      "sources": [
+        {
+          "name": "Memphis \u2014 DPD Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/saWmpKJIUAjyyNVc",
+          "service": "arcgis/rest/services/DPD_Building_Permits",
+          "layer_id": 0,
+          "join_column": "Address",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Shelby County Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://assessor.shelby.tn.us/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "nashville-tn": {
+      "label": "Nashville",
+      "state": "TN",
+      "sources": [
+        {
+          "name": "Nashville \u2014 Building Permits Issued",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/HdTo6HJqh92wn4D8",
+          "service": "arcgis/rest/services/Building_Permits_Issued_2",
+          "layer_id": 0,
+          "join_column": "Address",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Nashville \u2014 Building Permit Applications",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/HdTo6HJqh92wn4D8",
+          "service": "arcgis/rest/services/Building_Permit_Applications_Feat",
+          "layer_id": 0,
+          "join_column": "Address",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Nashville \u2014 Property Standards Violations",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/HdTo6HJqh92wn4D8",
+          "service": "arcgis/rest/services/Property_Standards_Violations_2",
+          "layer_id": 0,
+          "join_column": "Address",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Davidson County Property Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.padctn.org/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "austin-tx": {
+      "label": "Austin",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "Austin Open Data \u2014 Issued Construction Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.austintexas.gov",
+          "datasets": [
+            {
+              "id": "3syk-w9eu",
+              "join_column": "location_address"
+            },
+            {
+              "id": "x9kj-vhdy",
+              "join_column": "original_address1"
+            },
+            {
+              "id": "cdze-ufp8",
+              "join_column": "registered_address"
+            },
+            {
+              "id": "qc59-phn7",
+              "join_column": "offense_street_name"
+            },
+            {
+              "id": "q4t4-skuc",
+              "join_column": "offense_street_name"
+            },
+            {
+              "id": "ecmv-9xxi",
+              "join_column": "address"
+            },
+            {
+              "id": "peux-uuwu",
+              "join_column": "street_address"
+            },
+            {
+              "id": "6zcs-yxb3",
+              "join_column": "address"
+            },
+            {
+              "id": "ttd7-isgm",
+              "join_column": "location_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9
+        },
+        {
+          "name": "Austin \u2014 Code Compliance Cases",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.austintexas.gov",
+          "datasets": [
+            {
+              "id": "6wtj-zbtb",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Travis County Appraisal District",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.traviscad.org/property-search/",
+          "join_key": "prop_id",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        },
+        {
+          "name": "Austin Fire Department \u2014 Inspections",
+          "source_type": "fire_inspections",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.austintexas.gov",
+          "datasets": [
+            {
+              "id": "26se-epmq",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Austin 311 Unified Service Requests",
+          "source_type": "complaints",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.austintexas.gov",
+          "datasets": [
+            {
+              "id": "xwdj-i9he",
+              "join_column": "sr_location_street_number",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "dallas-tx": {
+      "label": "Dallas",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "Dallas Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "www.dallasopendata.com",
+          "datasets": [
+            {
+              "id": "e7gq-4sah",
+              "join_column": "street_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Dallas \u2014 Code Violations",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "www.dallasopendata.com",
+          "datasets": [
+            {
+              "id": "x9pz-kdq9",
+              "join_column": "location_address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "DCAD \u2014 Dallas Central Appraisal District",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.dallascad.org/SearchAddr.aspx",
+          "join_key": "account_number",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        },
+        {
+          "name": "Dallas Fire-Rescue \u2014 Inspections",
+          "source_type": "fire_inspections",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "www.dallasopendata.com",
+          "datasets": [
+            {
+              "id": "fsq7-ped4",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.8
+        }
+      ]
+    },
+    "farmers-branch-tx": {
+      "label": "Farmers Branch",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "Farmers Branch \u2014 Building Permits (Tyler/EnerGov)",
+          "source_type": "building_permits",
+          "platform": "Tyler",
+          "integration_type": "agentic",
+          "endpoint": "https://www.farmersbranchtx.gov/1133/Building-Permits",
+          "priority_tier": 1,
+          "data_quality_score": 0.65
+        },
+        {
+          "name": "Dallas County Appraisal District",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.dallascad.org/SearchAddr.aspx",
+          "join_key": "account_number",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "fort-worth-tx": {
+      "label": "Fort Worth",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "Fort Worth \u2014 CFW Development Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services5.arcgis.com/3ddLCBXe1bRt7mzj",
+          "service": "arcgis/rest/services/CFW_Open_Data_Development_Permits_View",
+          "layer_id": 0,
+          "join_column": "Street_Name",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Tarrant County Appraisal District",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.tad.org/",
+          "join_key": "account_id",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "houston-tx": {
+      "label": "Houston",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "Houston \u2014 Code Enforcement Violations",
+          "source_type": "code_enforcement",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.houstontx.gov",
+          "datasets": [
+            {
+              "id": "496e91d0-1695-4d1f-930b-7c103806613d",
+              "join_column": "Merged_Situs"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Harris County Appraisal District",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://public.hcad.org/records/",
+          "join_key": "account_number",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        }
+      ]
+    },
+    "san-antonio-tx": {
+      "label": "San Antonio",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "San Antonio \u2014 Building Permits (2020-2024)",
+          "source_type": "building_permits",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.sanantonio.gov",
+          "datasets": [
+            {
+              "id": "c22b1ef2-dcf8-4d77-be1a-ee3638092aab",
+              "join_column": "ADDRESS"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "San Antonio \u2014 Building Permits (Current)",
+          "source_type": "building_permits",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.sanantonio.gov",
+          "datasets": [
+            {
+              "id": "c21106f9-3ef5-4f3a-8604-f992b4db7512",
+              "join_column": "ADDRESS"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "San Antonio \u2014 Applications Submitted",
+          "source_type": "building_permits",
+          "platform": "CKAN",
+          "integration_type": "adapter",
+          "adapter_id": "ckan",
+          "host": "data.sanantonio.gov",
+          "datasets": [
+            {
+              "id": "fbb7202e-c6c1-475b-849e-c5c2cfb65833",
+              "join_column": "ADDRESS"
+            }
+          ],
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Bexar County Appraisal District",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.bcad.org/",
+          "join_key": "prop_id",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "norfolk-va": {
+      "label": "Norfolk",
+      "state": "VA",
+      "sources": [
+        {
+          "name": "Norfolk Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.norfolk.gov",
+          "datasets": [
+            {
+              "id": "agip-sqwc",
+              "join_column": "address"
+            },
+            {
+              "id": "bnrb-u445",
+              "join_column": "permit_address"
+            },
+            {
+              "id": "ihzr-5x5n",
+              "join_column": "address"
+            },
+            {
+              "id": "jf3j-u4s7",
+              "join_column": "address_number"
+            },
+            {
+              "id": "fahm-yuh4",
+              "join_column": "address"
+            },
+            {
+              "id": "suf7-r643",
+              "join_column": "location_of_contents"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Norfolk Real Estate Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.norfolk.gov/886/Real-Estate-Assessment",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        }
+      ]
+    },
+    "virginia-beach-va": {
+      "label": "Virginia Beach",
+      "state": "VA",
+      "sources": [
+        {
+          "name": "Virginia Beach Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.data.vbgov.com/arcgis/rest/services",
+          "service": "Permits/FeatureServer",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Virginia Beach \u2014 Code Enforcement",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.data.vbgov.com/arcgis/rest/services",
+          "service": "CodeEnforcement/FeatureServer",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.75
+        },
+        {
+          "name": "Virginia Beach Real Estate Assessor",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://www.vbgov.com/government/departments/real-estate-assessor/",
+          "priority_tier": 2,
+          "data_quality_score": 0.8,
+          "portal_url": ""
+        },
+        {
+          "name": "Virginia Beach \u2014 Building Permit Applications",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/CyVvlIiUfRBmMQuu",
+          "service": "arcgis/rest/services/Building_Permits_Applications_view/FeatureServer",
+          "layer_id": 0,
+          "join_column": "StreetAddress",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "seattle-wa": {
+      "label": "Seattle",
+      "state": "WA",
+      "sources": [
+        {
+          "name": "Seattle Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.seattle.gov",
+          "datasets": [
+            {
+              "id": "76t5-zqzr",
+              "join_column": "originaladdress1"
+            },
+            {
+              "id": "ez4a-iug7",
+              "join_column": "originaladdress1"
+            },
+            {
+              "id": "74ix-6xdj",
+              "join_column": "location"
+            },
+            {
+              "id": "c87v-5hwh",
+              "join_column": "originaladdress1"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "verified": "2026-06-18"
+        },
+        {
+          "name": "Seattle \u2014 Code Violations",
+          "source_type": "code_enforcement",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.seattle.gov",
+          "datasets": [
+            {
+              "id": "dk8m-pdjf",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 20,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "King County Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://blue.kingcounty.com/Assessor/eRealProperty/",
+          "join_key": "parcel_number",
+          "priority_tier": 1,
+          "data_quality_score": 0.9,
+          "portal_url": ""
+        },
+        {
+          "name": "Seattle Fire Department \u2014 Inspections",
+          "source_type": "fire_inspections",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.seattle.gov",
+          "datasets": [
+            {
+              "id": "uygs-xnmq",
+              "join_column": "address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 2,
+          "data_quality_score": 0.85
+        },
+        {
+          "name": "Seattle Building Permits (Current)",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.seattle.gov",
+          "datasets": [
+            {
+              "id": "k44w-2dcq",
+              "join_column": "originaladdress1",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "madison-wi": {
+      "label": "Madison",
+      "state": "WI",
+      "sources": [
+        {
+          "name": "Dane County \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://accessdane.countyofdane.com/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "milwaukee-wi": {
+      "label": "Milwaukee",
+      "state": "WI",
+      "sources": [
+        {
+          "name": "Milwaukee Open Data \u2014 Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/qjOOiLCYeUtwT9pE/arcgis/rest/services",
+          "service": "Building_Permits",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Milwaukee \u2014 Code Violations (MPROP)",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/qjOOiLCYeUtwT9pE/arcgis/rest/services",
+          "service": "DNS_Violations",
+          "layer_id": 0,
+          "priority_tier": 1,
+          "data_quality_score": 0.8
+        },
+        {
+          "name": "Milwaukee Assessor \u2014 Property Records",
+          "source_type": "tax_assessment",
+          "platform": "agentic",
+          "integration_type": "agentic",
+          "endpoint": "https://assessments.milwaukee.gov/",
+          "priority_tier": 2,
+          "data_quality_score": 0.85,
+          "portal_url": ""
+        }
+      ]
+    },
+    "jacksonville-fl": {
+      "label": "Jacksonville",
+      "state": "FL",
+      "sources": [],
+      "_note": "No API-accessible building permit data source identified for Jacksonville."
+    },
+    "indianapolis-in": {
+      "label": "Indianapolis",
+      "state": "IN",
+      "sources": [
+        {
+          "name": "Indianapolis \u2014 Accela Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.indy.gov",
+          "service": "server/rest/services/Accela/AGIS_INDIANAPOLIS/MapServer",
+          "layer_id": 0,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Indianapolis \u2014 311 Service Requests (RIMAC)",
+          "source_type": "311",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.indy.gov",
+          "service": "server/rest/services/OpenData/ODP_RIMACServiceRequests/MapServer",
+          "layer_id": 0,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "charlotte-nc": {
+      "label": "Charlotte",
+      "state": "NC",
+      "sources": [
+        {
+          "name": "Charlotte \u2014 Accela Development Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.charlottenc.gov",
+          "service": "arcgis/rest/services/Accela/Accela_Dev/MapServer",
+          "layer_id": 0,
+          "join_column": "NC_PIN",
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-06-19",
+          "_note": "Parcel-based join via NC_PIN rather than street address"
+        }
+      ]
+    },
+    "denver-co": {
+      "label": "Denver",
+      "state": "CO",
+      "sources": [
+        {
+          "name": "Denver \u2014 Residential Construction Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/zdB7qR0BtYrg0Xpl",
+          "service": "arcgis/rest/services/ODC_DEV_RESIDENTIALCONSTPERMIT_P/FeatureServer",
+          "layer_id": 316,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Denver \u2014 Commercial Construction Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/zdB7qR0BtYrg0Xpl",
+          "service": "arcgis/rest/services/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer",
+          "layer_id": 317,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Denver \u2014 Demolition Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/zdB7qR0BtYrg0Xpl",
+          "service": "arcgis/rest/services/ODC_DEV_DEMOLITIONPERMIT_P/FeatureServer",
+          "layer_id": 318,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Denver \u2014 311 Service Requests (2023)",
+          "source_type": "311",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/zdB7qR0BtYrg0Xpl",
+          "service": "arcgis/rest/services/311_Service_Requests_2023/FeatureServer",
+          "layer_id": 0,
+          "join_column": "Incident_Address_1",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "oklahoma-city-ok": {
+      "label": "Oklahoma City",
+      "state": "OK",
+      "sources": [],
+      "_note": "No API-accessible building permit data source identified for Oklahoma City."
+    },
+    "mesa-az": {
+      "label": "Mesa",
+      "state": "AZ",
+      "sources": [
+        {
+          "name": "Mesa Building Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.mesaaz.gov",
+          "datasets": [
+            {
+              "id": "a2ui-hcuj",
+              "join_column": "property_address",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "stockton-ca": {
+      "label": "Stockton",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Stockton Issued Permits",
+          "source_type": "building_permits",
+          "platform": "Socrata",
+          "integration_type": "adapter",
+          "adapter_id": "socrata",
+          "host": "data.stocktonca.gov",
+          "datasets": [
+            {
+              "id": "pmmp-k8nq",
+              "join_column": "geocoded_location",
+              "join_key": "address"
+            }
+          ],
+          "per_page": 1000,
+          "max_pages": 10,
+          "priority_tier": 1,
+          "data_quality_score": 0.85
+        }
+      ]
+    },
+    "portland-or": {
+      "label": "Portland",
+      "state": "OR",
+      "sources": [
+        {
+          "name": "Portland \u2014 Residential Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "www.portlandmaps.com",
+          "service": "od/rest/services/COP_OpenData_PlanningDevelopment/MapServer",
+          "layer_id": 89,
+          "join_column": "PROP_ADDRE",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "albuquerque-nm": {
+      "label": "Albuquerque",
+      "state": "NM",
+      "sources": [
+        {
+          "name": "Albuquerque \u2014 City Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "coageo.cabq.gov",
+          "service": "cabqgeo/rest/services/agis/City_Building_Permits/FeatureServer",
+          "layer_id": 0,
+          "join_column": "CalculatedAddress",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "tucson-az": {
+      "label": "Tucson",
+      "state": "AZ",
+      "sources": [
+        {
+          "name": "Tucson \u2014 Residential Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.tucsonaz.gov",
+          "service": "public/rest/services/PublicMaps/PermitsCode/MapServer",
+          "layer_id": 85,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Tucson \u2014 Multi-Family Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.tucsonaz.gov",
+          "service": "public/rest/services/PublicMaps/PermitsCode/MapServer",
+          "layer_id": 84,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Tucson \u2014 Code Enforcement Cases",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.tucsonaz.gov",
+          "service": "public/rest/services/PublicMaps/PermitsCode/MapServer",
+          "layer_id": 102,
+          "join_column": "MainAddress",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Tucson \u2014 Active Development/Building ROW Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "gis.tucsonaz.gov",
+          "service": "public/rest/services/PublicMaps/PermitsCode/MapServer",
+          "layer_id": 108,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "tampa-fl": {
+      "label": "Tampa",
+      "state": "FL",
+      "sources": [
+        {
+          "name": "Tampa \u2014 Single Family Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "arcgis.tampagov.net",
+          "service": "arcgis/rest/services/OpenData/Planning/MapServer",
+          "layer_id": 32,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Tampa \u2014 Construction Inspections",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "arcgis.tampagov.net",
+          "service": "arcgis/rest/services/OpenData/Planning/MapServer",
+          "layer_id": 30,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Tampa \u2014 Development Coordination",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "arcgis.tampagov.net",
+          "service": "arcgis/rest/services/OpenData/Planning/MapServer",
+          "layer_id": 31,
+          "join_column": "ADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "cleveland-oh": {
+      "label": "Cleveland",
+      "state": "OH",
+      "sources": [
+        {
+          "name": "Cleveland \u2014 311 Service Requests",
+          "source_type": "311",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services3.arcgis.com/dty2kHktVXHrqO8i",
+          "service": "arcgis/rest/services/Data_311/FeatureServer",
+          "layer_id": 0,
+          "join_column": "address",
+          "priority_tier": 1,
+          "data_quality_score": 0.85,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "fresno-ca": {
+      "label": "Fresno",
+      "state": "CA",
+      "sources": [
+        {
+          "name": "Fresno County \u2014 Land Use Code Violations",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services3.arcgis.com/tNPgIZWOB0Efvm0g",
+          "service": "arcgis/rest/services/LandUseCodeViolations_dashboard/FeatureServer",
+          "layer_id": 0,
+          "join_column": "STREETADDRESS",
+          "priority_tier": 1,
+          "data_quality_score": 0.75,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "plano-tx": {
+      "label": "Plano",
+      "state": "TX",
+      "sources": [
+        {
+          "name": "Plano \u2014 Commercial Building Permits",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/1DyhsVa6rviDKn5t",
+          "service": "arcgis/rest/services/Commercial_Building_Permits_WFL1/FeatureServer",
+          "layer_id": 9,
+          "join_column": "NU",
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "st-petersburg-fl": {
+      "label": "St. Petersburg",
+      "state": "FL",
+      "sources": [
+        {
+          "name": "St. Petersburg \u2014 Code Enforcement Cases",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services2.arcgis.com/9qPLjNtocjo438CJ",
+          "service": "arcgis/rest/services/CodesTenantCases/FeatureServer",
+          "layer_id": 0,
+          "join_column": "Street_Add",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "scottsdale-az": {
+      "label": "Scottsdale",
+      "state": "AZ",
+      "sources": [
+        {
+          "name": "Maricopa County \u2014 Building Permits (covers Scottsdale)",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services.arcgis.com/ykpntM6e3tHvzKRJ",
+          "service": "arcgis/rest/services/Building_Permits_(view)/FeatureServer",
+          "layer_id": 0,
+          "join_column": "FullStreetAddress",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Maricopa County \u2014 Code Violations (covers Scottsdale)",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services.arcgis.com/ykpntM6e3tHvzKRJ",
+          "service": "arcgis/rest/services/Code_Case_Violations/FeatureServer",
+          "layer_id": 0,
+          "join_column": "Address",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "chandler-az": {
+      "label": "Chandler",
+      "state": "AZ",
+      "sources": [
+        {
+          "name": "Maricopa County \u2014 Building Permits (covers Chandler)",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services.arcgis.com/ykpntM6e3tHvzKRJ",
+          "service": "arcgis/rest/services/Building_Permits_(view)/FeatureServer",
+          "layer_id": 0,
+          "join_column": "FullStreetAddress",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        },
+        {
+          "name": "Maricopa County \u2014 Code Violations (covers Chandler)",
+          "source_type": "code_enforcement",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services.arcgis.com/ykpntM6e3tHvzKRJ",
+          "service": "arcgis/rest/services/Code_Case_Violations/FeatureServer",
+          "layer_id": 0,
+          "join_column": "Address",
+          "priority_tier": 1,
+          "data_quality_score": 0.8,
+          "verified": "2026-06-19"
+        }
+      ]
+    },
+    "omaha-ne": {
+      "label": "Omaha",
+      "state": "NE",
+      "sources": [
+        {
+          "name": "Omaha \u2014 Building Permits (Construction Activity)",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/tIBLyYZX96jUntYm",
+          "service": "arcgis/rest/services/ConstructionActivity/FeatureServer",
+          "layer_id": 0,
+          "join_column": "fulladdr",
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-06-19",
+          "_note": "Service metadata confirms BuildingPermits layer but returned 0 features during testing - may be intermittent"
+        }
+      ]
+    },
+    "aurora-co": {
+      "label": "Aurora",
+      "state": "CO",
+      "sources": [
+        {
+          "name": "Denver Metro \u2014 Residential Construction Permits (includes Aurora)",
+          "source_type": "building_permits",
+          "platform": "ArcGIS",
+          "integration_type": "adapter",
+          "adapter_id": "arcgis",
+          "host": "services1.arcgis.com/zdB7qR0BtYrg0Xpl",
+          "service": "arcgis/rest/services/ODC_DEV_RESIDENTIALCONSTPERMIT_P/FeatureServer",
+          "layer_id": 316,
+          "join_column": "ADDRESS",
+          "priority_tier": 2,
+          "data_quality_score": 0.7,
+          "verified": "2026-06-19",
+          "_note": "Denver metro permits - filter by address within Aurora"
+        }
+      ]
+    },
+    "colorado-springs-co": {
+      "label": "Colorado Springs",
+      "state": "CO",
+      "sources": [],
+      "_note": "City GIS server not publicly accessible - no permit endpoints found"
+    },
+    "gainesville-fl": {
+      "state": "FL",
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.cityofgainesville.org",
+          "name": "Gainesville Fl Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "vu9p-a5f7",
+              "join_column": "address"
+            },
+            {
+              "id": "p798-x3nx",
+              "join_column": "address"
+            }
+          ]
+        }
+      ]
+    },
+    "montgomery-county-md": {
+      "state": "MD",
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.montgomerycountymd.gov",
+          "name": "Montgomery County Md Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "4mse-ku6q",
+              "join_column": "location"
+            },
+            {
+              "id": "k9nj-z35d",
+              "join_column": "street_address"
+            },
+            {
+              "id": "4tja-rkhg",
+              "join_column": "address"
+            },
+            {
+              "id": "5pue-gfbe",
+              "join_column": "location_address"
+            },
+            {
+              "id": "k35y-k582",
+              "join_column": "street_address"
+            },
+            {
+              "id": "tzyi-s757",
+              "join_column": "street_name"
+            }
+          ]
+        }
+      ]
+    },
+    "prince-georges-county-md": {
+      "state": "MD",
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.princegeorgescountymd.gov",
+          "name": "Prince Georges County Md Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "9hyf-46qb",
+              "join_column": "location_address"
+            },
+            {
+              "id": "umjn-t2iz",
+              "join_column": "address_line_1"
+            },
+            {
+              "id": "weik-ttee",
+              "join_column": "street_address"
+            },
+            {
+              "id": "dqvr-xqvv",
+              "join_column": "street_address"
+            }
+          ]
+        }
+      ]
+    },
+    "richmond-va": {
+      "state": "VA",
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.richmondgov.com",
+          "name": "Richmond Va Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "fgv9-bhf4",
+              "join_column": "location_1_address"
+            }
+          ]
+        }
+      ]
+    },
+    "bloomington-in": {
+      "state": "IN",
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.bloomington.in.gov",
+          "name": "Bloomington In Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "j2qg-us5h",
+              "join_column": "address"
+            },
+            {
+              "id": "6yy2-gtxn",
+              "join_column": "address"
+            }
+          ]
+        }
+      ]
+    },
+    "cook-county-il": {
+      "state": "IL",
+      "sources": []
+    },
+    "king-county-wa": {
+      "state": "WA",
+      "sources": [
+        {
+          "platform": "Socrata",
+          "host": "data.kingcounty.gov",
+          "name": "King County Wa Open Data",
+          "source_type": "building_permits",
+          "datasets": [
+            {
+              "id": "f29f-zza5",
+              "join_column": "address"
+            }
           ]
         }
       ]
     }
   },
-  "statewide": {
-    "NY": {
-      "sources": [
-        {
-          "name": "NY DEC Environmental Remediation",
-          "source_type": "environmental",
-          "platform": "arcgis",
-          "host": "https://gisservices.dec.ny.gov/gis/dil/FeatureServer/5",
-          "datasets": [
-            {"id": "5", "join_column": "address", "category": "environmental", "label": "DEC Environmental Sites"}
-          ]
-        }
-      ]
+  "auto_catalog_cities": {
+    "arcgis": [
+      "albuquerque-nm",
+      "atlanta-ga",
+      "charlotte-nc",
+      "colorado-springs-co",
+      "columbus-oh",
+      "detroit-mi",
+      "fort-worth-tx",
+      "fresno-ca",
+      "indianapolis-in",
+      "jacksonville-fl",
+      "memphis-tn",
+      "mesa-az",
+      "omaha-ne",
+      "portland-or",
+      "raleigh-nc",
+      "tucson-az"
+    ],
+    "accela_tyler_cityworks": [
+      "denver-co",
+      "las-vegas-nv",
+      "long-beach-ca",
+      "miami-fl",
+      "milwaukee-wi",
+      "oklahoma-city-ok",
+      "tampa-fl",
+      "tulsa-ok",
+      "virginia-beach-va"
+    ]
+  },
+  "synthesized_fallback": {
+    "portal_candidates_template": [
+      "data.{slug}.{st}.gov",
+      "data.{slug}.gov",
+      "www.{slug}.gov/open-data",
+      "{slug}.{st}.gov",
+      "data.{st}.gov",
+      "{slug}-{st}.opendatasoft.com"
+    ],
+    "discovery_strategy": {
+      "step_1": "Attempt portal_candidates_template URLs with HEAD request",
+      "step_2": "If Socrata discovered, probe /api/catalog/v1?q=permits",
+      "step_3": "If ArcGIS Hub discovered, query /api/v3/search?q=building+permits",
+      "step_4": "If CKAN discovered, query /api/3/action/package_search?q=permits",
+      "step_5": "Fall back to state-level open data portal",
+      "step_6": "Log as uncovered jurisdiction for manual curation"
+    }
+  },
+  "platform_adapters": {
+    "socrata": {
+      "endpoint_template": "{host}/resource/{dataset_id}.json",
+      "filter": "SoQL $where",
+      "pagination": "$limit + $offset",
+      "completeness": "count(*) verification",
+      "auth": "X-App-Token (optional)",
+      "rate_limit": "1000 req/hour (unauthenticated), 40000 req/hour (app token)",
+      "default_per_page": 1000,
+      "max_per_page": 50000
+    },
+    "arcgis": {
+      "endpoint_template": "{host}/{service}/FeatureServer/{layer_id}/query",
+      "filter": "SQL where clause",
+      "pagination": "resultOffset + resultRecordCount + orderByFields=OBJECTID",
+      "completeness": "returnCountOnly=true",
+      "auth": "None (public services) or token-based",
+      "rate_limit": "Service-dependent, typically 1000 features/request",
+      "spatial_query": "geometry + geometryType=esriGeometryPoint + spatialRel=esriSpatialRelIntersects"
+    },
+    "ckan": {
+      "endpoint_template": "{host}/api/3/action/datastore_search_sql",
+      "filter": "PostgreSQL WHERE UPPER(col) LIKE UPPER('%needle%')",
+      "pagination": "LIMIT/OFFSET",
+      "completeness": "SELECT count(*)",
+      "auth": "API key (optional for public datasets)",
+      "rate_limit": "Varies by instance"
+    },
+    "carto": {
+      "endpoint_template": "{host}/api/v2/sql",
+      "filter": "PostgreSQL ILIKE",
+      "pagination": "LIMIT/OFFSET",
+      "completeness": "SELECT COUNT(*)",
+      "auth": "API key (required for private datasets)",
+      "rate_limit": "Varies by plan"
+    },
+    "onbase": {
+      "endpoint_template": "N/A (browser automation required)",
+      "filter": "Form-based search (agentic)",
+      "pagination": "Manual page navigation",
+      "completeness": "Result count from search header",
+      "auth": "Session-based (public access for document search)",
+      "integration_type": "agentic"
+    },
+    "etrakit": {
+      "endpoint_template": "N/A (Tyler Technologies eTRAKiT portal)",
+      "filter": "Form-based search by address/permit number",
+      "pagination": "Manual (agentic browser)",
+      "completeness": "Search result count",
+      "auth": "None (public portal)",
+      "integration_type": "agentic"
+    },
+    "static": {
+      "endpoint_template": "{url}",
+      "filter": "N/A (full download, local search)",
+      "pagination": "N/A",
+      "completeness": "File size / row count verification",
+      "auth": "None",
+      "update_strategy": "periodic_sync (check Last-Modified header)"
     }
   }
 }
