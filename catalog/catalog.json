@@ -4473,9 +4473,10 @@
           "datasets": [
             {
               "id": "w9se-dmra",
-              "join_column": "address",
+              "join_column": "block",
               "category": "building_permits",
-              "label": "NJ Construction Permits"
+              "label": "NJ Construction Permits",
+              "join_key": "block"
             }
           ],
           "per_page": 1000,
