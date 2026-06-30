@@ -81,15 +81,15 @@ func Load() *Catalog {
 }
 
 // MetroFallback maps suburb city keys to the nearest covered metro's sources.
+// NOTE: Only use for cities within the SAME jurisdiction's open data portal.
+// Jersey City is NOT on NYC's portal — it uses NJ statewide data.
 var MetroFallback = map[string]string{
-	// NYC Metro
-	"jersey-city-nj": "new-york-ny",
-	"hoboken-nj":     "new-york-ny",
-	"yonkers-ny":     "new-york-ny",
-	"brooklyn-ny":    "new-york-ny",
-	"queens-ny":      "new-york-ny",
-	"bronx-ny":       "new-york-ny",
+	// NYC Boroughs (all on data.cityofnewyork.us)
+	"brooklyn-ny":      "new-york-ny",
+	"queens-ny":        "new-york-ny",
+	"bronx-ny":         "new-york-ny",
 	"staten-island-ny": "new-york-ny",
+	"yonkers-ny":       "new-york-ny",
 }
 
 // ResolveSources returns all DataSourceConfigs for a given city/state.
