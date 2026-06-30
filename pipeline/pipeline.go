@@ -234,22 +234,33 @@ func (p *Pipeline) resolveIdentifiers(ctx context.Context, geo *models.GeocodedA
 		}
 	}
 
-	// Query PLUTO with house number + street for precise match
+	// Query DOB permit issuance for BIN/BBL — this is the authoritative source
+	// PLUTO doesn't always have the address in a matchable format
 	var endpoint string
 	if houseNum != "" {
-		// Use house number for exact building match
-		streetName := strings.Join(parts[1:], " ") // everything after house number
-		if streetName == "" {
-			streetName = street
+		// Use DOB permits (ipu4-2q9a) which has house__ and street_name columns
+		streetName := ""
+		if len(parts) > 1 {
+			streetName = strings.ToUpper(strings.Join(parts[1:], " "))
 		}
+		// Normalize: South→SOUTH, etc (DOB stores full words uppercase)
+		streetName = strings.ReplaceAll(streetName, " S ", " SOUTH ")
+		if strings.HasSuffix(streetName, " S") {
+			streetName = strings.TrimSuffix(streetName, " S") + " SOUTH"
+		}
+		streetName = strings.ReplaceAll(streetName, " N ", " NORTH ")
+		streetName = strings.ReplaceAll(streetName, " E ", " EAST ")
+		streetName = strings.ReplaceAll(streetName, " W ", " WEST ")
+		
 		endpoint = fmt.Sprintf(
-			"https://data.cityofnewyork.us/resource/64uk-42ks.json?$where=UPPER(address) LIKE UPPER('%s %%') AND UPPER(address) LIKE UPPER('%%%s%%')&$limit=1",
+			"https://data.cityofnewyork.us/resource/ipu4-2q9a.json?$where=house__='%s' AND street_name='%s'&$limit=1&$select=bin__,bbl",
 			url.QueryEscape(houseNum),
 			url.QueryEscape(streetName),
 		)
 	} else {
+		// Fallback to street LIKE (less precise)
 		endpoint = fmt.Sprintf(
-			"https://data.cityofnewyork.us/resource/64uk-42ks.json?$where=UPPER(address) LIKE UPPER('%%%s%%')&$limit=1",
+			"https://data.cityofnewyork.us/resource/ipu4-2q9a.json?$where=UPPER(street_name) LIKE UPPER('%%%s%%')&$limit=1&$select=bin__,bbl",
 			url.QueryEscape(street),
 		)
 	}
@@ -267,12 +278,16 @@ func (p *Pipeline) resolveIdentifiers(ctx context.Context, geo *models.GeocodedA
 		if bbl, ok := rows[0]["bbl"]; ok {
 			ids.BBL = fmt.Sprintf("%v", bbl)
 		}
-		if bin, ok := rows[0]["bin"]; ok {
+		// DOB permits uses "bin__" not "bin"
+		if bin, ok := rows[0]["bin__"]; ok {
+			ids.BIN = fmt.Sprintf("%v", bin)
+		} else if bin, ok := rows[0]["bin"]; ok {
 			ids.BIN = fmt.Sprintf("%v", bin)
 		}
 	}
 
 	if ids.BIN != "" || ids.BBL != "" {
+		log.Printf("Resolved identifiers for %s: BIN=%s BBL=%s", geo.FormattedAddress, ids.BIN, ids.BBL)
 		p.cache.Set(cacheKey, ids)
 	}
 	return ids
