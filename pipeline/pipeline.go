@@ -213,15 +213,47 @@ func (p *Pipeline) resolveIdentifiers(ctx context.Context, geo *models.GeocodedA
 		return cached.(*models.ResolvedIdentifiers)
 	}
 
-	// Query NYC BIS for BIN/BBL
 	ids := &models.ResolvedIdentifiers{}
-	// Try PLUTO lookup via Socrata for BBL
+
+	// Extract house number from formatted address (e.g., "110 Central Park S" → "110")
 	street := geo.FullStreet
 	if street == "" {
 		return ids
 	}
 
-	endpoint := fmt.Sprintf("https://data.cityofnewyork.us/resource/64uk-42ks.json?$where=UPPER(address) LIKE UPPER('%%%s%%')&$limit=1", url.QueryEscape(street))
+	// Parse house number from the street address
+	houseNum := ""
+	parts := strings.Fields(street)
+	if len(parts) > 0 && isNumericID(parts[0]) {
+		houseNum = parts[0]
+	} else {
+		// Try from formatted address
+		fmtParts := strings.Fields(geo.FormattedAddress)
+		if len(fmtParts) > 0 && isNumericID(fmtParts[0]) {
+			houseNum = fmtParts[0]
+		}
+	}
+
+	// Query PLUTO with house number + street for precise match
+	var endpoint string
+	if houseNum != "" {
+		// Use house number for exact building match
+		streetName := strings.Join(parts[1:], " ") // everything after house number
+		if streetName == "" {
+			streetName = street
+		}
+		endpoint = fmt.Sprintf(
+			"https://data.cityofnewyork.us/resource/64uk-42ks.json?$where=UPPER(address) LIKE UPPER('%s %%') AND UPPER(address) LIKE UPPER('%%%s%%')&$limit=1",
+			url.QueryEscape(houseNum),
+			url.QueryEscape(streetName),
+		)
+	} else {
+		endpoint = fmt.Sprintf(
+			"https://data.cityofnewyork.us/resource/64uk-42ks.json?$where=UPPER(address) LIKE UPPER('%%%s%%')&$limit=1",
+			url.QueryEscape(street),
+		)
+	}
+
 	req, _ := http.NewRequestWithContext(ctx, "GET", endpoint, nil)
 	resp, err := adapters.SharedHTTPClient.Do(req)
 	if err != nil {
@@ -338,16 +370,20 @@ func adapterCacheKey(config models.DataSourceConfig, needles []string) string {
 
 func expandNeedles(fullStreet, rawAddress string) []string {
 	var needles []string
+
+	// First needle: the full street address with house number (most specific)
 	if fullStreet != "" {
 		needles = append(needles, fullStreet)
 	}
-	// Add raw address street portion
+
+	// Add raw address street portion (may have house number)
 	raw := strings.Split(rawAddress, ",")[0]
 	raw = strings.TrimSpace(raw)
 	if raw != "" && raw != fullStreet {
 		needles = append(needles, raw)
 	}
-	// Add abbreviated version (e.g., "110 Central Park S" from "110 Central Park South")
+
+	// Add abbreviated version
 	abbreviated := strings.ReplaceAll(fullStreet, "South", "S")
 	abbreviated = strings.ReplaceAll(abbreviated, "North", "N")
 	abbreviated = strings.ReplaceAll(abbreviated, "East", "E")
@@ -358,6 +394,9 @@ func expandNeedles(fullStreet, rawAddress string) []string {
 	if abbreviated != fullStreet && abbreviated != "" {
 		needles = append(needles, abbreviated)
 	}
+
+	// DO NOT add just the street name without house number —
+	// that causes corridor-wide matching (the scoping bug)
 	return needles
 }
 
@@ -457,4 +496,13 @@ func calculateConfidence(records, failures int) float64 {
 		return 0
 	}
 	return float64(records) / float64(total)
+}
+
+func isNumericID(s string) bool {
+	for _, c := range s {
+		if c < '0' || c > '9' {
+			return false
+		}
+	}
+	return len(s) > 0
 }

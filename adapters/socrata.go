@@ -30,22 +30,65 @@ func (a *SocrataAdapter) Query(ctx context.Context, config models.DataSourceConf
 	endpoint := fmt.Sprintf("%s/resource/%s.json", host, config.DatasetID)
 
 	// Determine effective needles based on join key
+	// CRITICAL: When BIN/BBL identifiers are available and the dataset supports them,
+	// use exact ID match instead of street name LIKE (which pulls entire corridors)
 	effectiveNeedles := needles
+	useExactMatch := false
+	effectiveColumn := config.JoinColumn
+
 	if identifiers != nil {
 		jk := strings.ToLower(config.JoinKey)
 		jc := strings.ToLower(config.JoinColumn)
+
 		switch {
+		// BIN-based joins: exact match on BIN column
 		case identifiers.BIN != "" && (jk == "bin" || jc == "bin" || jc == "bin__" || jc == "bin_number"):
 			effectiveNeedles = []string{identifiers.BIN}
+			useExactMatch = true
+			// Use the actual column that holds BIN
+			if jc == "bin" || jc == "bin__" || jc == "bin_number" {
+				effectiveColumn = config.JoinColumn
+			}
+
+		// BBL-based joins: exact match on BBL column
 		case identifiers.BBL != "" && (jk == "bbl" || jc == "bbl" || jc == "bble"):
 			effectiveNeedles = []string{identifiers.BBL}
+			useExactMatch = true
+
+		// APN-based joins
 		case identifiers.APN != "" && (jk == "apn" || jc == "apn" || jc == "ain"):
 			effectiveNeedles = []string{identifiers.APN}
+			useExactMatch = true
+
+		// Dataset has join_key=bin but column is "street_name" — 
+		// This means the dataset CAN be queried by BIN on a different column.
+		// Look for common BIN/BBL column names in the dataset.
+		case identifiers.BIN != "" && jk == "bin":
+			effectiveNeedles = []string{identifiers.BIN}
+			effectiveColumn = "bin"  // Override: query the bin column directly
+			useExactMatch = true
+
+		case identifiers.BBL != "" && jk == "bbl":
+			effectiveNeedles = []string{identifiers.BBL}
+			effectiveColumn = "bbl"  // Override: query the bbl column directly
+			useExactMatch = true
 		}
 	}
 
 	// Build SoQL WHERE clause
-	where := buildWhereClause(config.JoinColumn, effectiveNeedles)
+	var where string
+	if useExactMatch {
+		// Exact match for BIN/BBL — no LIKE, no UPPER
+		col := sanitizeColumn(effectiveColumn)
+		var clauses []string
+		for _, needle := range effectiveNeedles {
+			safe := strings.ReplaceAll(needle, "'", "''")
+			clauses = append(clauses, fmt.Sprintf("`%s` = '%s'", col, safe))
+		}
+		where = strings.Join(clauses, " OR ")
+	} else {
+		where = buildWhereClause(config.JoinColumn, effectiveNeedles)
+	}
 
 	// Headers
 	headers := map[string]string{}
