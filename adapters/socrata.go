@@ -51,7 +51,7 @@ func (a *SocrataAdapter) Query(ctx context.Context, config models.DataSourceConf
 			}
 
 		// BBL-based joins: exact match on BBL column
-		case identifiers.BBL != "" && (jk == "bbl" || jc == "bbl" || jc == "bble"):
+		case identifiers.BBL != "" && (jk == "bbl" || jk == "block" || jc == "bbl" || jc == "bble" || jc == "block"):
 			effectiveNeedles = []string{identifiers.BBL}
 			useExactMatch = true
 
