@@ -204,10 +204,60 @@ func (p *Pipeline) resolveAddress(ctx context.Context, address string) (*models.
 }
 
 func (p *Pipeline) resolveIdentifiers(ctx context.Context, geo *models.GeocodedAddress) *models.ResolvedIdentifiers {
-	if geo.City != "New York" && geo.City != "New York City" {
-		return nil
+	// NYC: resolve BIN/BBL via DOB permits
+	if geo.City == "New York" || geo.City == "New York City" {
+		return p.resolveNYCIdentifiers(ctx, geo)
 	}
 
+	// Jersey City: resolve block/lot via spatial parcel query
+	if geo.City == "Jersey City" && geo.StateCode == "NJ" {
+		return p.resolveJCIdentifiers(ctx, geo)
+	}
+
+	return nil
+}
+
+func (p *Pipeline) resolveJCIdentifiers(ctx context.Context, geo *models.GeocodedAddress) *models.ResolvedIdentifiers {
+	cacheKey := "ids:" + geo.FormattedAddress
+	if cached, ok := p.cache.Get(cacheKey); ok {
+		return cached.(*models.ResolvedIdentifiers)
+	}
+
+	ids := &models.ResolvedIdentifiers{}
+
+	// Use JC parcels dataset with spatial query (within_distance of geocoded point)
+	endpoint := fmt.Sprintf(
+		"https://data.jerseycitynj.gov/api/explore/v2.1/catalog/datasets/jersey-city-parcels/records?limit=1&where=within_distance(geo_point_2d,geom'POINT(%f %f)',50m)",
+		geo.Lng, geo.Lat,
+	)
+
+	req, _ := http.NewRequestWithContext(ctx, "GET", endpoint, nil)
+	resp, err := adapters.SharedHTTPClient.Do(req)
+	if err != nil {
+		return ids
+	}
+	defer resp.Body.Close()
+
+	var odsResp struct {
+		TotalCount int `json:"total_count"`
+		Results    []struct {
+			Block string `json:"block"`
+			Lot   string `json:"lot"`
+		} `json:"results"`
+	}
+	json.NewDecoder(resp.Body).Decode(&odsResp)
+
+	if len(odsResp.Results) > 0 {
+		ids.BBL = odsResp.Results[0].Block // Reuse BBL field for block
+		ids.BIN = odsResp.Results[0].Lot   // Reuse BIN field for lot
+		log.Printf("Resolved JC identifiers for %s: Block=%s Lot=%s", geo.FormattedAddress, ids.BBL, ids.BIN)
+		p.cache.Set(cacheKey, ids)
+	}
+
+	return ids
+}
+
+func (p *Pipeline) resolveNYCIdentifiers(ctx context.Context, geo *models.GeocodedAddress) *models.ResolvedIdentifiers {
 	cacheKey := "ids:" + geo.FormattedAddress
 	if cached, ok := p.cache.Get(cacheKey); ok {
 		return cached.(*models.ResolvedIdentifiers)
