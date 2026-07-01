@@ -227,7 +227,7 @@ func (p *Pipeline) resolveJCIdentifiers(ctx context.Context, geo *models.Geocode
 
 	// Use JC parcels dataset with spatial query (within_distance of geocoded point)
 	endpoint := fmt.Sprintf(
-		"https://data.jerseycitynj.gov/api/explore/v2.1/catalog/datasets/jersey-city-parcels/records?limit=1&where=within_distance(geo_point_2d,geom'POINT(%f %f)',50m)",
+		"https://data.jerseycitynj.gov/api/explore/v2.1/catalog/datasets/jersey-city-parcels/records?limit=1&where=within_distance(geo_point_2d,geom'POINT(%f %f)',200m)",
 		geo.Lng, geo.Lat,
 	)
 
