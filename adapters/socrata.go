@@ -90,6 +90,14 @@ func (a *SocrataAdapter) Query(ctx context.Context, config models.DataSourceConf
 		where = buildWhereClause(config.JoinColumn, effectiveNeedles)
 	}
 
+	// Append extra_params as additional WHERE filters (e.g., muniname='JERSEY CITY')
+	if config.Extra != nil {
+		for k, v := range config.Extra {
+			safe := strings.ReplaceAll(v, "'", "''")
+			where = fmt.Sprintf("(%s) AND `%s` = '%s'", where, sanitizeColumn(k), safe)
+		}
+	}
+
 	// Headers
 	headers := map[string]string{}
 	if token := os.Getenv("NYC_SODA_APP_TOKEN"); token != "" {

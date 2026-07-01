@@ -26,13 +26,14 @@ type CityEntry struct {
 
 // SourceEntry is a top-level source group in the catalog.
 type SourceEntry struct {
-	Name       string         `json:"name"`
-	SourceType string         `json:"source_type"`
-	Platform   string         `json:"platform"`
-	Host       string         `json:"host"`
-	Datasets   []DatasetEntry `json:"datasets"`
-	PerPage    int            `json:"per_page"`
-	MaxPages   int            `json:"max_pages"`
+	Name        string            `json:"name"`
+	SourceType  string            `json:"source_type"`
+	Platform    string            `json:"platform"`
+	Host        string            `json:"host"`
+	Datasets    []DatasetEntry    `json:"datasets"`
+	PerPage     int               `json:"per_page"`
+	MaxPages    int               `json:"max_pages"`
+	ExtraParams map[string]string `json:"extra_params"`
 }
 
 // DatasetEntry is an individual dataset within a source.
@@ -186,6 +187,7 @@ func parseSources(sources []SourceEntry) []models.DataSourceConfig {
 				Label:      label,
 				PerPage:    perPage,
 				MaxPages:   maxPages,
+				Extra:      src.ExtraParams,
 			})
 		}
 	}
