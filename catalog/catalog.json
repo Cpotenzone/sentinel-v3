@@ -460,60 +460,7 @@
       ]
     },
     "NJ": {
-      "sources": [
-        {
-          "platform": "Socrata",
-          "host": "data.nj.gov",
-          "name": "New Jersey State Open Data",
-          "source_type": "building_permits",
-          "datasets": [
-            {
-              "id": "kie7-5sud",
-              "join_column": "address"
-            },
-            {
-              "id": "9qfp-48xj",
-              "join_column": "address"
-            },
-            {
-              "id": "u3ag-s7w6",
-              "join_column": "address"
-            },
-            {
-              "id": "j2rb-g65t",
-              "join_column": "address"
-            },
-            {
-              "id": "q8ec-3etm",
-              "join_column": "address"
-            },
-            {
-              "id": "t6tk-mr48",
-              "join_column": "Georeferenced Column (address)"
-            },
-            {
-              "id": "9qpt-bnm4",
-              "join_column": "Street Address"
-            },
-            {
-              "id": "j9i2-jh6f",
-              "join_column": "address"
-            },
-            {
-              "id": "bqxi-fi4r",
-              "join_column": "address"
-            },
-            {
-              "id": "hn62-fgp4",
-              "join_column": "address"
-            },
-            {
-              "id": "w9se-dmra",
-              "join_column": "address"
-            }
-          ]
-        }
-      ]
+      "sources": []
     },
     "WA": {
       "sources": [
